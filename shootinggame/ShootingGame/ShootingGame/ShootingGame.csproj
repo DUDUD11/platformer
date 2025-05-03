@@ -1,0 +1,857 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Content\External\**" />
+    <EmbeddedResource Remove="Content\External\**" />
+    <None Remove="Content\External\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\2d\ArrowTower.xnb" />
+    <None Remove="Content\2d\CursorArrow.xnb" />
+    <None Remove="Content\2d\EggSac.xnb" />
+    <None Remove="Content\2d\Portal.xnb" />
+    <None Remove="Content\2d\Tower.xnb" />
+    <None Remove="Content\Animation\HeroSheet.xnb" />
+    <None Remove="Content\Audio\ImGood.wav" />
+    <None Remove="Content\Audio\Projectile\ArrowFire.xnb" />
+    <None Remove="Content\Audio\Projectile\ArrowHit.xnb" />
+    <None Remove="Content\Audio\Projectile\CannonHit.xnb" />
+    <None Remove="Content\Audio\Projectile\CannonShoot.xnb" />
+    <None Remove="Content\Audio\Projectile\CrystalHit.xnb" />
+    <None Remove="Content\Audio\Projectile\EarthHit.xnb" />
+    <None Remove="Content\Audio\Projectile\EarthShoot.xnb" />
+    <None Remove="Content\Audio\Projectile\FireSound.xnb" />
+    <None Remove="Content\Audio\Projectile\IceHit.xnb" />
+    <None Remove="Content\Audio\Projectile\LightningShoot.xnb" />
+    <None Remove="Content\Audio\Projectile\Shock.xnb" />
+    <None Remove="Content\Effects\AuraLine.xnb" />
+    <None Remove="Content\Effects\base.fx" />
+    <None Remove="Content\Effects\CannonBallExplosion.xnb" />
+    <None Remove="Content\Effects\CritEffect.xnb" />
+    <None Remove="Content\Effects\FelhoundSpawn.xnb" />
+    <None Remove="Content\Effects\FireNova.xnb" />
+    <None Remove="Content\Effects\Haste.xnb" />
+    <None Remove="Content\Effects\HealRing.xnb" />
+    <None Remove="Content\Effects\IceNova.xnb" />
+    <None Remove="Content\Effects\ImmuneEffect.xnb" />
+    <None Remove="Content\Effects\PoisenBubbles.xnb" />
+    <None Remove="Content\Effects\Rez.xnb" />
+    <None Remove="Content\Effects\Shield.xnb" />
+    <None Remove="Content\Effects\ShieldSpawn.xnb" />
+    <None Remove="Content\Effects\ShutDownAura.xnb" />
+    <None Remove="Content\Effects\StunEffect.xnb" />
+    <None Remove="Content\Effects\TargetCircle.xnb" />
+    <None Remove="Content\Fonts\Arial16.spritefont" />
+    <None Remove="Content\Fonts\Arial16.xnb" />
+    <None Remove="Content\Layer\Layer_0.png" />
+    <None Remove="Content\Layer\Layer_1.png" />
+    <None Remove="Content\Layer\Layer_10.png" />
+    <None Remove="Content\Layer\Layer_11.png" />
+    <None Remove="Content\Layer\Layer_2.png" />
+    <None Remove="Content\Layer\Layer_3.png" />
+    <None Remove="Content\Layer\Layer_4.png" />
+    <None Remove="Content\Layer\Layer_5.png" />
+    <None Remove="Content\Layer\Layer_6.png" />
+    <None Remove="Content\Layer\Layer_7.png" />
+    <None Remove="Content\Layer\Layer_8.png" />
+    <None Remove="Content\Layer\Layer_9.png" />
+    <None Remove="Content\Particle\particle.png" />
+    <None Remove="Content\Projectile\AcidBall.xnb" />
+    <None Remove="Content\Projectile\Arrow.xnb" />
+    <None Remove="Content\Projectile\Fireball.xnb" />
+    <None Remove="Content\Shader\NormalHighlight.fx" />
+    <None Remove="Content\Shader\Test.fx" />
+    <None Remove="Content\Shader\Throb.fx" />
+    <None Remove="Content\Sprite\circle.xnb" />
+    <None Remove="Content\Sprite\Diamond.png" />
+    <None Remove="Content\Sprite\Hero.xnb" />
+    <None Remove="Content\Sprite\Imp.xnb" />
+    <None Remove="Content\Sprite\Imp3.xnb" />
+    <None Remove="Content\Sprite\ImpBlue.xnb" />
+    <None Remove="Content\Sprite\Spider.xnb" />
+    <None Remove="Content\Sprite\Star.png" />
+    <None Remove="Content\Sprite\surge.xnb" />
+    <None Remove="Content\Tiles\distile.png" />
+    <None Remove="Content\Tiles\Tile_01.png" />
+    <None Remove="Content\Tiles\Tile_02.png" />
+    <None Remove="Content\Tiles\Tile_03.png" />
+    <None Remove="Content\Tiles\Tile_04.png" />
+    <None Remove="Content\Tiles\Tile_05.png" />
+    <None Remove="Content\Tiles\Tile_06.png" />
+    <None Remove="Content\Tiles\Tile_07.png" />
+    <None Remove="Content\Tiles\Tile_08.png" />
+    <None Remove="Content\Tiles\Tile_09.png" />
+    <None Remove="Content\Tiles\Tile_10.png" />
+    <None Remove="Content\Tiles\Tile_100.png" />
+    <None Remove="Content\Tiles\Tile_101.png" />
+    <None Remove="Content\Tiles\Tile_102.png" />
+    <None Remove="Content\Tiles\Tile_103.png" />
+    <None Remove="Content\Tiles\Tile_104.png" />
+    <None Remove="Content\Tiles\Tile_105.png" />
+    <None Remove="Content\Tiles\Tile_106.png" />
+    <None Remove="Content\Tiles\Tile_107.png" />
+    <None Remove="Content\Tiles\Tile_108.png" />
+    <None Remove="Content\Tiles\Tile_109.png" />
+    <None Remove="Content\Tiles\Tile_11.png" />
+    <None Remove="Content\Tiles\Tile_110.png" />
+    <None Remove="Content\Tiles\Tile_111.png" />
+    <None Remove="Content\Tiles\Tile_113.png" />
+    <None Remove="Content\Tiles\Tile_114.png" />
+    <None Remove="Content\Tiles\Tile_115.png" />
+    <None Remove="Content\Tiles\Tile_118.png" />
+    <None Remove="Content\Tiles\Tile_119.png" />
+    <None Remove="Content\Tiles\Tile_12.png" />
+    <None Remove="Content\Tiles\Tile_120.png" />
+    <None Remove="Content\Tiles\Tile_123.png" />
+    <None Remove="Content\Tiles\Tile_124.png" />
+    <None Remove="Content\Tiles\Tile_125.png" />
+    <None Remove="Content\Tiles\Tile_13.png" />
+    <None Remove="Content\Tiles\Tile_14.png" />
+    <None Remove="Content\Tiles\Tile_15.png" />
+    <None Remove="Content\Tiles\Tile_16.png" />
+    <None Remove="Content\Tiles\Tile_17.png" />
+    <None Remove="Content\Tiles\Tile_18.png" />
+    <None Remove="Content\Tiles\Tile_19.png" />
+    <None Remove="Content\Tiles\Tile_20.png" />
+    <None Remove="Content\Tiles\Tile_21.png" />
+    <None Remove="Content\Tiles\Tile_22.png" />
+    <None Remove="Content\Tiles\Tile_23.png" />
+    <None Remove="Content\Tiles\Tile_24.png" />
+    <None Remove="Content\Tiles\Tile_25.png" />
+    <None Remove="Content\Tiles\Tile_26.png" />
+    <None Remove="Content\Tiles\Tile_27.png" />
+    <None Remove="Content\Tiles\Tile_28.png" />
+    <None Remove="Content\Tiles\Tile_29.png" />
+    <None Remove="Content\Tiles\Tile_30.png" />
+    <None Remove="Content\Tiles\Tile_31.png" />
+    <None Remove="Content\Tiles\Tile_34.png" />
+    <None Remove="Content\Tiles\Tile_35.png" />
+    <None Remove="Content\Tiles\Tile_36.png" />
+    <None Remove="Content\Tiles\Tile_40.png" />
+    <None Remove="Content\Tiles\Tile_41.png" />
+    <None Remove="Content\Tiles\Tile_42.png" />
+    <None Remove="Content\Tiles\Tile_43.png" />
+    <None Remove="Content\Tiles\Tile_44.png" />
+    <None Remove="Content\Tiles\Tile_45.png" />
+    <None Remove="Content\Tiles\Tile_46.png" />
+    <None Remove="Content\Tiles\Tile_47.png" />
+    <None Remove="Content\Tiles\Tile_48.png" />
+    <None Remove="Content\Tiles\Tile_49.png" />
+    <None Remove="Content\Tiles\Tile_50.png" />
+    <None Remove="Content\Tiles\Tile_51.png" />
+    <None Remove="Content\Tiles\Tile_52.png" />
+    <None Remove="Content\Tiles\Tile_53.png" />
+    <None Remove="Content\Tiles\Tile_54.png" />
+    <None Remove="Content\Tiles\Tile_55.png" />
+    <None Remove="Content\Tiles\Tile_56.png" />
+    <None Remove="Content\Tiles\Tile_57.png" />
+    <None Remove="Content\Tiles\Tile_58.png" />
+    <None Remove="Content\Tiles\Tile_59.png" />
+    <None Remove="Content\Tiles\Tile_60.png" />
+    <None Remove="Content\Tiles\Tile_61.png" />
+    <None Remove="Content\Tiles\Tile_62.png" />
+    <None Remove="Content\Tiles\Tile_63.png" />
+    <None Remove="Content\Tiles\Tile_64.png" />
+    <None Remove="Content\Tiles\Tile_65.png" />
+    <None Remove="Content\Tiles\Tile_66.png" />
+    <None Remove="Content\Tiles\Tile_67.png" />
+    <None Remove="Content\Tiles\Tile_68.png" />
+    <None Remove="Content\Tiles\Tile_69.png" />
+    <None Remove="Content\Tiles\Tile_70.png" />
+    <None Remove="Content\Tiles\Tile_71.png" />
+    <None Remove="Content\Tiles\Tile_72.png" />
+    <None Remove="Content\Tiles\Tile_73.png" />
+    <None Remove="Content\Tiles\Tile_76.png" />
+    <None Remove="Content\Tiles\Tile_77.png" />
+    <None Remove="Content\Tiles\Tile_78.png" />
+    <None Remove="Content\Tiles\Tile_82.png" />
+    <None Remove="Content\Tiles\Tile_83.png" />
+    <None Remove="Content\Tiles\Tile_84.png" />
+    <None Remove="Content\Tiles\Tile_85.png" />
+    <None Remove="Content\Tiles\Tile_86.png" />
+    <None Remove="Content\Tiles\Tile_87.png" />
+    <None Remove="Content\Tiles\Tile_88.png" />
+    <None Remove="Content\Tiles\Tile_89.png" />
+    <None Remove="Content\Tiles\Tile_90.png" />
+    <None Remove="Content\Tiles\Tile_91.png" />
+    <None Remove="Content\Tiles\Tile_92.png" />
+    <None Remove="Content\Tiles\Tile_93.png" />
+    <None Remove="Content\Tiles\Tile_94.png" />
+    <None Remove="Content\Tiles\Tile_95.png" />
+    <None Remove="Content\Tiles\Tile_96.png" />
+    <None Remove="Content\Tiles\Tile_97.png" />
+    <None Remove="Content\Tiles\Tile_99.png" />
+    <None Remove="Content\Trap\electric.png" />
+    <None Remove="Content\Trap\JumpTrap.png" />
+    <None Remove="Content\Trap\SawBlade.png" />
+    <None Remove="Content\Trap\Shrink.png" />
+    <None Remove="Content\Trap\spine.png" />
+    <None Remove="Content\Trap\static_spine.png" />
+    <None Remove="Content\UI\Animation\CheckBox.xnb" />
+    <None Remove="Content\UI\ArrowLeft.xnb" />
+    <None Remove="Content\UI\ArrowRight.xnb" />
+    <None Remove="Content\UI\Icons\Blink.xnb" />
+    <None Remove="Content\UI\Icons\Dialog.png" />
+    <None Remove="Content\UI\Icons\EnterButton.png" />
+    <None Remove="Content\UI\Icons\FireIcon.xnb" />
+    <None Remove="Content\UI\MainMenuBkg.xnb" />
+    <None Remove="Content\UI\shade.xnb" />
+    <None Remove="Content\UI\SimpleBtn.xnb" />
+    <None Remove="Content\UI\SlotImage.xnb" />
+    <None Remove="Content\UI\solid.xnb" />
+    <None Remove="Content\UI\WorldMap.xnb" />
+    <None Remove="Content\UI\XButton.xnb" />
+    <None Remove="Icon.ico" />
+    <None Remove="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Particle\particle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shader\shrinkCircle.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shader\antialiasing.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shader\Test.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\Diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\Star.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\distile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_02.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_03.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_05.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_06.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_08.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_09.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_101.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_102.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_103.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_104.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_105.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_106.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_107.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_108.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_109.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_110.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_111.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_113.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_114.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_115.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_118.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_119.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_120.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_123.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_124.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_17.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_19.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_23.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_25.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_26.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_27.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_28.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_29.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_31.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_34.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_35.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_36.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_41.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_42.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_43.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_44.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_45.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_46.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_47.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_49.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_51.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_53.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_54.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_56.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_57.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_58.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_59.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_61.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_62.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_63.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_65.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_66.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_67.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_68.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_69.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_70.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_71.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_72.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_73.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_76.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_77.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_78.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_82.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_83.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_84.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_85.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_86.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_87.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_88.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_89.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_90.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_91.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_92.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_93.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_94.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_95.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_96.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_97.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Tiles\Tile_99.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\2d\ArrowTower.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\2d\EggSac.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\2d\Portal.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\2d\Tower.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\HeroSheet.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\ImGood.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\ArrowFire.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\ArrowHit.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\CannonHit.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\CannonShoot.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\CrystalHit.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\EarthHit.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\EarthShoot.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\FireSound.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\IceHit.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\LightningShoot.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\Projectile\Shock.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\AuraLine.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\CannonBallExplosion.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\CritEffect.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\FelhoundSpawn.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\FireNova.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\Haste.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\HealRing.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\IceNova.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\ImmuneEffect.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\PoisenBubbles.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\Rez.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\Shield.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\ShieldSpawn.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\ShutDownAura.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\StunEffect.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\TargetCircle.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Double_Jump.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Fall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Hit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Idle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Jump.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Run.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Hero\Wall_Jump.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shader\base.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Projectile\AcidBall.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Projectile\Arrow.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shader\NormalHighlight.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shader\Throb.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\Imp3.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\ImpBlue.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\Spider.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\electric.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\JumpTrap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\SawBlade.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\Shrink.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\spine.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\static_spine.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Trap\MovingPlatform.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\Animation\CheckBox.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\ArrowLeft.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\ArrowRight.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\Icons\Blink.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\Icons\EnterButton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\Icons\FireIcon.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\MainMenuBkg.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\shade.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Arial16.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\2d\CursorArrow.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Projectile\Fireball.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\circle.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\Hero.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\Imp.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\surge.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\SimpleBtn.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\SlotImage.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\solid.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\WorldMap.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\XButton.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FlatPhysics\FlatPhysics\FlatPhysics.csproj" />
+    <ProjectReference Include="..\..\..\Flat\Flat\Flat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\Layer\Layer_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Layer\Layer_9.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Content\UI\Icons\Dialog.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+    <Message Text="Restoring dotnet tools" Importance="High" />
+    <Exec Command="dotnet tool restore" />
+  </Target>
+</Project>

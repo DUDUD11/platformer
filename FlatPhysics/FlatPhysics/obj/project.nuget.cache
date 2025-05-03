@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "XmNRWB+7Bzg=",
+  "success": true,
+  "projectFilePath": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kim42\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\kim42\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\kim42\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
+  ],
+  "logs": []
+}
