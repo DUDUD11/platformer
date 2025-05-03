@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "FlatPhysics/1.0.0": {
+        "runtime": {
+          "FlatPhysics.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FlatPhysics/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

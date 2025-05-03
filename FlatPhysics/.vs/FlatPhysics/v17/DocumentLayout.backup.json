@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\library\\FlatPhysics\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{05B4C603-43D2-41E3-8233-879D4D9E41F4}|FlatPhysics\\FlatPhysics.csproj|e:\\library\\flatphysics\\flatphysics\\flatphysics.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{05B4C603-43D2-41E3-8233-879D4D9E41F4}|FlatPhysics\\FlatPhysics.csproj|solutionrelative:flatphysics\\flatphysics.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05B4C603-43D2-41E3-8233-879D4D9E41F4}|FlatPhysics\\FlatPhysics.csproj|e:\\library\\flatphysics\\flatphysics\\flatvector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05B4C603-43D2-41E3-8233-879D4D9E41F4}|FlatPhysics\\FlatPhysics.csproj|solutionrelative:flatphysics\\flatvector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FlatPhysics",
+              "DocumentMoniker": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+              "RelativeDocumentMoniker": "FlatPhysics\\FlatPhysics.csproj",
+              "ToolTip": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+              "RelativeToolTip": "FlatPhysics\\FlatPhysics.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-01-10T01:21:11.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FlatVector.cs",
+              "DocumentMoniker": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatVector.cs",
+              "RelativeDocumentMoniker": "FlatPhysics\\FlatVector.cs",
+              "ToolTip": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatVector.cs",
+              "RelativeToolTip": "FlatPhysics\\FlatVector.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T01:21:03.839Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

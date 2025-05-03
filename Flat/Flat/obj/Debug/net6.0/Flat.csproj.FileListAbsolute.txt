@@ -1,0 +1,12 @@
+E:\library\Flat\Flat\bin\Debug\net6.0\Flat.deps.json
+E:\library\Flat\Flat\bin\Debug\net6.0\Flat.dll
+E:\library\Flat\Flat\bin\Debug\net6.0\Flat.pdb
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.csproj.AssemblyReference.cache
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.GeneratedMSBuildEditorConfig.editorconfig
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.AssemblyInfoInputs.cache
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.AssemblyInfo.cs
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.csproj.CoreCompileInputs.cache
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.dll
+E:\library\Flat\Flat\obj\Debug\net6.0\refint\Flat.dll
+E:\library\Flat\Flat\obj\Debug\net6.0\Flat.pdb
+E:\library\Flat\Flat\obj\Debug\net6.0\ref\Flat.dll
