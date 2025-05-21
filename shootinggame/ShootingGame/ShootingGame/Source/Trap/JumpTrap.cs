@@ -13,25 +13,36 @@ namespace ShootingGame
     public class JumpTrap : Trap
     {
         public readonly static Vector2 JumpTrap_Frames = new Vector2(7, 1);
-        public readonly static Vector2 JumpTrap_Dims = TileMap.Tile_Dims;
-        public readonly static FlatVector JumpTrap_Force = new FlatVector(0f,200f);
+        public readonly static Vector2 JumpTrap_Dims = TileMap.Tile_Dims * 2;
+        public readonly static FlatVector JumpTrap_Force = new FlatVector(0f,400f);
         public readonly static int JumpTrap_millitimeFrame = 100;
         public readonly static string JumpTrap_path = "Trap\\JumpTrap";
 
-        public JumpTrap(Game1 game, Vector2 init_pos) : base(game, JumpTrap_path, init_pos, JumpTrap_Dims, 0, ShapeType.Box, JumpTrap_Frames, JumpTrap_millitimeFrame,true,null)
+        public readonly static float JumpTrap_CoolTime = 0.5f;
+        private float CoolTime = 0f;
+
+        public JumpTrap(Game1 game, Vector2 init_pos) : base(game, JumpTrap_path, init_pos+TileMap.Tile_Dims*0.5f, JumpTrap_Dims, 0, ShapeType.Box, JumpTrap_Frames, JumpTrap_millitimeFrame,true,null)
         {
 
             this.angle = 0f;
         }
 
-        public JumpTrap(Game1 game, Vector2 init_pos,float angle) : base(game, JumpTrap_path, init_pos, JumpTrap_Dims, 0, ShapeType.Box, JumpTrap_Frames, JumpTrap_millitimeFrame, true,null)
+        public JumpTrap(Game1 game, Vector2 init_pos,float angle) : base(game, JumpTrap_path, init_pos + TileMap.Tile_Dims * 0.5f ,JumpTrap_Dims, 0, ShapeType.Box, JumpTrap_Frames, JumpTrap_millitimeFrame, true,null)
         {
             this.angle = angle;
 
         }
         public override void Interact(SpriteEntity spriteEntity)
         {
-      
+
+            if (Game1.WorldTimer.Elapsed.TotalSeconds < JumpTrap_CoolTime + CoolTime)
+            {
+                return;
+
+            }
+
+            CoolTime = (float)Game1.WorldTimer.Elapsed.TotalSeconds;
+
 
             if (spriteEntity is Hero hero)
             {

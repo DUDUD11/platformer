@@ -5,7 +5,7 @@ using ShootingGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,10 +15,14 @@ namespace ShootingGame
     public class MapDeployment
     {
         private Map map;
+        private Vector2 Offset;
+        
+   
         private bool[,] chk;
         private Game1 game;
-        private bool Map_Changed;
+        public bool Map_Changed;
         private Vector2 Map_Sz;
+        private Hero hero;
        
       
 
@@ -26,9 +30,6 @@ namespace ShootingGame
         { 
             
         }
-
-
-
 
         public void init(Game1 game)
         {
@@ -49,37 +50,56 @@ namespace ShootingGame
         {
             if (dir < 0 || dir > 3) throw new Exception("Invalid NextMap setting");
             string _map = map.NextMap(dir);
-         
-            return _map;
+
+            if (dir == 1 || dir == 2)
+            {
+                Offset = new Vector2(map.Offset.Item1, map.Offset.Item2); 
+            }
+
+            else
+            {
+                Offset = new Vector2(Int32.MinValue, -1);
+            }
+
+                return _map;
         }
-
-
-        public bool Load_Map(int stage, int substage)
+        public bool Load_FirstMap(int stage, int substage,Hero hero)
         {
             string tmp = "Map" + stage + "-" + substage;
 
             map = Game1.save.LoadMapData(tmp);
             Map_Changed = true;
 
-            chk = new bool[map.Map_height, map.Map_width];
+            this.hero = hero;
 
-            if (map == null) return false;
+            Offset = new Vector2(map.Offset.Item1, map.Offset.Item2);
 
-            Parsing_map();
             return true;
         }
 
-        public bool Load_Map(string tmp)
+        public bool Load_Map(string tmp,Hero hero)
         {
-       
+           
             map = Game1.save.LoadMapData(tmp);
             Map_Changed = true;
 
+            if (Offset.X < -10000000)
+            {
+                Offset = new Vector2(-map.Offset.Item1, -map.Offset.Item2) ;
+            }
+            
+        
+            return true;
+        }
+
+        public bool Set_Load_Map()
+        {
             chk = new bool[map.Map_height, map.Map_width];
 
             if (map == null) return false;
 
             Parsing_map();
+            Hero_Setting(hero);
             return true;
         }
 
@@ -88,7 +108,6 @@ namespace ShootingGame
             StaticTile_Width();
             StaticTile_Height();
             Trap_Gen();
-            Hero_Gen();
             Env_Gen();
         }
 
@@ -256,12 +275,13 @@ namespace ShootingGame
                                 }
                                 break;
                             case 5:
-                                TileMap.Add_DynamicTile(new VanishingTile(game, init_pos, new Vector2(256, 128), 100));
+                                TileMap.Add_DynamicTile(new VanishingTile(game, init_pos, new Vector2(TileMap.Tile_Size*2, TileMap.Tile_Size), 100));
                                 break;
                             case 6:
                                 int[] SpineMovingPlatformarr = JsonSerializer.Deserialize<int[]>((JsonElement)map.DeployInfo[i][j]);
 
-                                SpineMovingPlatform SpineMovingPlatform = new SpineMovingPlatform(game, init_pos, init_pos + new Vector2(SpineMovingPlatformarr[0] * TileMap.Tile_Size, SpineMovingPlatformarr[1] * TileMap.Tile_Size), 1f, Convert.ToInt32(SpineMovingPlatformarr[2].ToString(),2));
+                                SpineMovingPlatform SpineMovingPlatform = new SpineMovingPlatform(game, init_pos, init_pos + new Vector2(SpineMovingPlatformarr[0] * TileMap.Tile_Size, SpineMovingPlatformarr[1] * TileMap.Tile_Size), 
+                                    (Math.Abs(SpineMovingPlatformarr[0])+ Math.Abs(SpineMovingPlatformarr[1]))/6.0f, Convert.ToInt32(SpineMovingPlatformarr[2].ToString(),2));
                                 game.AddSpriteWithBody(SpineMovingPlatform, SpineMovingPlatform.flatBody, FlatWorld.Wolrd_layer.Static_allias);
                                 for (int h = 0; h < SpineMovingPlatform.SpineList.Count; h++)
                                 {
@@ -269,6 +289,17 @@ namespace ShootingGame
                                 }
 
                                 break;
+                            case 7:
+                                int[] FallingTileformarr = JsonSerializer.Deserialize<int[]>((JsonElement)map.DeployInfo[i][j]);
+
+                                FallingTile fallingTile = new FallingTile(game, init_pos, new Vector2(FallingTileformarr[0], FallingTileformarr[1]),Convert.ToInt32(FallingTileformarr[2].ToString(), 2));
+                                game.AddSpriteWithBody(fallingTile, fallingTile.flatBody, FlatWorld.Wolrd_layer.Static_allias);
+                                for (int h = 0; h < fallingTile.SpineList.Count; h++)
+                                {
+                                    game.AddSpriteWithBody(fallingTile.SpineList[h], fallingTile.SpineList[h].flatBody, FlatWorld.Wolrd_layer.Static_allias);
+                                }
+                                break;
+
 
                             default:
                                 throw new Exception("Error!");
@@ -292,15 +323,21 @@ namespace ShootingGame
 
         }
 
-        public void Hero_Gen()
-        { 
-        
+        public void Hero_Setting(Hero hero)
+        {
+            hero.Set_RevivePos(new Vector2(map.ResetPoint.Item1,map.ResetPoint.Item2));
+        }
+
+        public Vector2 Hero_Offset()
+        {
+            return Offset;
         }
 
         public void Env_Gen()
         {
             for (int i = 0; i < map.Map_height; i++)
             {
+
                 for (int j = 0; j < map.Map_width; j++) // 끝은 처리하지않고 만약 1x1 타일이라면 height 타일로 처리합시다.
                 {
                     if (!chk[i, j] && map.Deploy[i][j].Item1 == (int)D1.Env)

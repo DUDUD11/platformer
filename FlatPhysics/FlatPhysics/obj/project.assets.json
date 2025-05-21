@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+      "projectUniqueName": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
       "projectName": "FlatPhysics",
-      "projectPath": "E:\\library\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+      "projectPath": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
       "packagesPath": "C:\\Users\\kim42\\.nuget\\packages\\",
-      "outputPath": "E:\\library\\FlatPhysics\\FlatPhysics\\obj\\",
+      "outputPath": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -86,7 +86,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

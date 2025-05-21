@@ -68,7 +68,7 @@ namespace ShootingGame
         public void Move(FlatVector val)
         {
             this.flatBody.Move(val);
-            this.pos = FlatVector.ToVector2(flatBody.Position);
+            this.pos += FlatVector.ToVector2(val);
         
         
         }

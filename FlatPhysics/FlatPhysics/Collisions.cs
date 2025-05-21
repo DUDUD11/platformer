@@ -47,6 +47,17 @@ namespace FlatPhysics
             return true;
         }
 
+        public static bool ContactAABBs(FlatAABB aabb1, FlatAABB aabb2)
+        {
+            if (aabb1.Max.X < aabb2.Min.X || aabb1.Max.Y < aabb2.Min.Y) return false;
+
+            if (aabb2.Max.X < aabb1.Min.X || aabb2.Max.Y < aabb1.Min.Y) return false;
+
+            return true;
+        }
+
+
+
 
 
         public static bool Collide(FlatBody bodyA, FlatBody bodyB, out FlatVector normal, out float depth)

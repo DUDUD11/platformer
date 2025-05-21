@@ -20,7 +20,7 @@ namespace ShootingGame
         private double timer;
 
         public VanishingTile(Game1 game,  Vector2 init_pos, Vector2 dims, int millitimePerFrame)
-            : base(game, Vanishing_path, init_pos, dims,false, true, Vanishing_frames, 1, (int)(Vanishing_frames.X* Vanishing_frames.Y),  millitimePerFrame,true,false)
+            : base(game, Vanishing_path, init_pos, new Vector2(dims.X/2,dims.Y/4),false, true, Vanishing_frames, 1, (int)(Vanishing_frames.X* Vanishing_frames.Y),  millitimePerFrame,true,false)
         {
             this.game = game;
             model = game.Content.Load<Texture2D>(Vanishing_path);

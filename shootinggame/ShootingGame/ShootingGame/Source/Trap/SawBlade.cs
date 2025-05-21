@@ -38,7 +38,7 @@ namespace ShootingGame
         
             if (spriteEntity is Hero hero)
             {
-                hero.Destroy = true;
+                hero.Get_Hit(-1);
             }
 
             else if (spriteEntity is Mob mob)

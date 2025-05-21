@@ -18,6 +18,9 @@ namespace ShootingGame
     // Map.enum 값
     // Map editor 초기화 데이터에 작업
     // Update 조건문 확인 MAIN문
+    // infookbutton
+    // trap_gen 등의 gen
+    // rightbutton
 
     public class MapEditor
     {
@@ -92,7 +95,7 @@ namespace ShootingGame
         public MapEditor(Game1 game)
         {
             this.game = game;
-            CurrentMap = new Map(Tuple.Create(0,0));
+            CurrentMap = new Map(Tuple.Create(0,0),Tuple.Create(0,0));
             save = new Save(game);
             RbInput = new TextInputBox[RbInput_Cnt];
             Buttons = new Button[Enum.GetValues(typeof(buttons)).Length];
@@ -174,7 +177,7 @@ namespace ShootingGame
 
         private Vector2 RUI(bool upper,bool right, int idx)
         {
-            Vector2 pos = new Vector2(CurDeploy.X * TileMap.Tile_Size,CurDeploy.Y * TileMap.Tile_Size);
+            Vector2 pos = new Vector2((CurDeploy.X-offset.X) * TileMap.Tile_Size,(CurDeploy.Y-offset.Y) * TileMap.Tile_Size);
 
             if (upper) pos += new Vector2(0, 100);
             else pos -= new Vector2(0, 100);
@@ -225,7 +228,7 @@ namespace ShootingGame
 
         public void DeleteButtonClicked()
         {
-            CurrentMap = new Map(Tuple.Create(0,0));
+            CurrentMap = new Map(Tuple.Create(0,0), Tuple.Create(0, 0));
         }
 
         public void LoadButtonClicked()
@@ -269,7 +272,7 @@ namespace ShootingGame
 
         public void RightButtonClicked()
         {
-            if (CurSelected != null && CurSelected.Item1 == (int)ShootingGame.D1.Trap && CurDeploy.X !=-1)
+            if (CurSelected != null && CurSelected.Item1 == (int)ShootingGame.D1.Trap && CurDeploy.X != -1)
             {
 
                 RbClicked = true;
@@ -283,17 +286,17 @@ namespace ShootingGame
                         break;
 
                     case 2:
-                    
-                        MovingPlatformRightButton();
-         
 
-                       
+                        MovingPlatformRightButton();
+
+
+
                         break;
                     case 3:
-             
+
                         SawBladRightButton();
 
-                   
+
                         break;
 
                     case 4:
@@ -304,11 +307,22 @@ namespace ShootingGame
                         SpineMovingPlatformRightButton();
                         break;
 
+                    case 7:
+                        FallingTileRightButton();
+                        break;
+
                     default:
                         RbClicked = false;
                         break;
 
                 }
+
+            }
+
+            else if (CurSelected != null && CurSelected.Item1 == (int)ShootingGame.D1.Tile && CurDeploy.X != -1)
+            {
+                CurrentMap.Map_Update((int)CurDeploy.X, (int)CurDeploy.Y, new Tuple<int, int>(0,0));
+                CurDeploy = new Vector2(-1, 0);
 
             }
         }
@@ -339,8 +353,11 @@ namespace ShootingGame
                     case 6:
                         CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
                         break;
+                case 7:
+                    CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
+                    break;
 
-                    default:
+                default:
                         break;
 
                 }
@@ -370,18 +387,23 @@ namespace ShootingGame
 
         }
 
+        private void RightButton_Pos(out bool upper, out bool right)
+        {
+            if (CurDeploy.X- offset.X>= Game1.screen_width / (TileMap.Tile_Size * 2)) right = false;
+            else right = true;
+            if (CurDeploy.Y-offset.Y >= Game1.screen_height / (TileMap.Tile_Size * 2)) upper = false;
+            else upper = true;
+        }
+
+
         private void OneIntValRightButton(int trap_idx)
         {
            
             string[] hint_str = { "Val" };
 
-            bool upper;
-            bool right;
+            
 
-            if (CurDeploy.X >= Game1.screen_width / (TileMap.Tile_Size * 2)) right = false;
-            else right = true;
-            if (CurDeploy.Y >= Game1.screen_height / (TileMap.Tile_Size * 2)) upper = false;
-            else upper = true;
+            RightButton_Pos(out bool upper, out bool right);
 
       
             RbInput[0] = new TextInputBox(game, true, hint_str[0], RUI(upper, right, 0) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3 , Button_Dims.Y));
@@ -398,13 +420,10 @@ namespace ShootingGame
             int i = 0;
             string[] hint_str = { "XPOS", "YPOS" };
 
-            bool upper;
-            bool right;
+          
 
-            if (CurDeploy.X >= Game1.screen_width / (TileMap.Tile_Size*2)) right = false;
-            else right = true;
-            if (CurDeploy.Y >= Game1.screen_height / (TileMap.Tile_Size*2)) upper = false;
-            else upper = true;
+            RightButton_Pos(out bool upper, out bool right);
+
 
             for (i = 0; i < MovingPlatForm.Addition_variable; i++)
             {
@@ -421,25 +440,38 @@ namespace ShootingGame
             int i = 0;
             string[] hint_str = { "XPOS", "YPOS", "SpineBit" };
 
-            bool upper;
-            bool right;
 
-            if (CurDeploy.X >= Game1.screen_width / (TileMap.Tile_Size * 2)) right = false;
-            else right = true;
-            if (CurDeploy.Y >= Game1.screen_height / (TileMap.Tile_Size * 2)) upper = false;
-            else upper = true;
+            RightButton_Pos(out bool upper, out bool right);
+
 
             for (i = 0; i < SpineMovingPlatform.Addition_variable; i++)
             {
                 RbInput[i] = new TextInputBox(game, true, hint_str[i], RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y));
             }
 
-            this.RbOkButton = new Button(game, true, RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "OK", Info_Okbutton, false, ShootingGame.D2_Trap.SpineMovingPlatform);
+            this.RbOkButton = new Button(game, true, RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "OK", Info_Okbutton, false, ShootingGame.D2_Trap.fallingTile);
             this.RbCancleButton = new Button(game, true, RUI(upper, right, i + 1) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "Cancel", Info_CancelButton, false);
 
         }
 
+        private void FallingTileRightButton()
+        {
+            int i = 0;
+            string[] hint_str = { "XDims", "YDims", "SpineBit" };
 
+
+            RightButton_Pos(out bool upper, out bool right);
+
+
+            for (i = 0; i < FallingTile.Addition_variable; i++)
+            {
+                RbInput[i] = new TextInputBox(game, true, hint_str[i], RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y));
+            }
+
+            this.RbOkButton = new Button(game, true, RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "OK", Info_Okbutton, false, ShootingGame.D2_Trap.fallingTile);
+            this.RbCancleButton = new Button(game, true, RUI(upper, right, i + 1) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "Cancel", Info_CancelButton, false);
+
+        }
 
 
         private void SawBladRightButton()
@@ -447,13 +479,8 @@ namespace ShootingGame
             int i = 0;
             string[] hint_str = { "XPOS", "YPOS" };
 
-            bool upper;
-            bool right;
+            RightButton_Pos(out bool upper, out bool right);
 
-            if (CurDeploy.X >= Game1.screen_width / (TileMap.Tile_Size * 2)) right = false;
-            else right = true;
-            if (CurDeploy.Y >= Game1.screen_height / (TileMap.Tile_Size * 2)) upper = false;
-            else upper = true;
 
             for (i = 0; i < SawBlade.Addition_variable; i++)
             {
@@ -574,6 +601,9 @@ namespace ShootingGame
             }
 
             bool LeftClick = FlatMouse.Instance.IsLeftMouseButtonPressed();
+
+           
+
             if (LeftClick && CurSelected!=Tuple.Create(0, 0) && !RbClicked)
             {
                 Rectangle rect;

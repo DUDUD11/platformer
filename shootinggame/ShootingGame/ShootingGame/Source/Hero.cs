@@ -18,7 +18,7 @@ namespace ShootingGame
 
         private FlatBody flatBody;
         private Trail trail;
-        private Vector2 Revive_Pos;
+        public Vector2 Revive_Pos;
 
 
         public static float trail_lifespan = 1f;
@@ -26,13 +26,14 @@ namespace ShootingGame
         public static float Speed = 500f;
         public static Vector2 Hero_Frames = new Vector2(11, 1);
         public static int Hero_animation_num = 7;
-        public static float DoubleJumpIntime = 1f;
+        public static float DoubleJumpIntime = 3f;
         public static float DashStartTime;
-        public static float WallJumpCooldown = 2.5f;
+        public static float WallJumpCooldown =0.5f;
         public static float Hero_Throb_Time = 1.2f;
         public static float Hero_Dead_EffectTime = 0.25f;
         public static float WallJumpPortion = 0.8f;
         public static float Respawn_Time = 2f;
+        public static int MovingPlatformWalkFactor = 30;
 
         public float health, maxHealth;
         public double JumpLastTime = float.MinValue;
@@ -45,8 +46,15 @@ namespace ShootingGame
     
         public int dash = 0;
         public bool Left = false;
+        public bool Jumped = false;
+
         public Hero_Status status;
         public Hero_Status2 ani_status;
+
+        public Vector2 delta_Velocity { get; set; } = Vector2.Zero;
+        public bool Hero_Moved { get; set; } = false;
+
+
 
         public enum Hero_Status
         { 
@@ -70,6 +78,11 @@ namespace ShootingGame
         public FlatBody FlatBody
         { get { return flatBody; } }
 
+        public void Set_RevivePos(Vector2 pos)
+        { 
+            this.Revive_Pos = pos;
+        }
+
         public void SkillAdd(Skill skill)
         { 
             skillList.Add(skill);
@@ -92,10 +105,7 @@ namespace ShootingGame
             }
         }
 
-        public void Set_RevivePos(Vector2 pos)
-        {
-            this.Revive_Pos = pos;
-        }
+
 
         public bool ActivateSkill(string name, Vector2 Pos)
         {
@@ -120,7 +130,7 @@ namespace ShootingGame
         {
             maxHealth = 5;
             health = maxHealth;
-            Revive_Pos = init_pos;
+          //  Revive_Pos = init_pos;
 
 
             InitFlatBody(init_pos, DIMS);
@@ -166,6 +176,8 @@ namespace ShootingGame
 
         }
 
+ 
+
         public void Revive()
         {
 
@@ -178,6 +190,9 @@ namespace ShootingGame
             health = maxHealth;
             flatBody.Reset(Revive_Pos.X,Revive_Pos.Y);
             this.pos = Revive_Pos;
+
+            game.Camera_Reset();
+
         }
 
         public void Dash(FlatVector vec)
@@ -197,6 +212,13 @@ namespace ShootingGame
             FlatVector forecdirection = new FlatVector(0, 1);
           //  FlatVector force = forecdirection * forceMagnitude / 800;
             FlatBody.LinearVelocity += new FlatVector(0, 200);
+            if (FlatBody.LinearVelocity.Y < 200)
+            {
+                FlatBody.LinearVelocity = new FlatVector(FlatBody.LinearVelocity.X, 200f);
+            }
+
+            Jumped = true;
+
             ChangeCurrentAnimation(1);
         }
         public void DoubleJump()
@@ -218,6 +240,15 @@ namespace ShootingGame
 
             //  FlatVector force = forecdirection * forceMagnitude / 800;
             FlatBody.LinearVelocity += Normaldir * 200;
+
+            if (FlatBody.LinearVelocity.Y < Normaldir.Y * 220)
+            {
+                FlatBody.LinearVelocity = new FlatVector(FlatBody.LinearVelocity.X, Normaldir.Y * 220);
+            }
+
+
+
+
             ChangeCurrentAnimation(6);
         }
 
@@ -225,24 +256,25 @@ namespace ShootingGame
         {
             status = Hero_Status.bottomed;
             dash = 0;
-        
+            Jumped = false;
         }
 
         public void WallReach()
         {
             status = Hero_Status.wallContact;
-            dash = 0;
 
         }
 
         public void Get_Hit(float damage)
         {
+     
             if (ani_status== Hero_Status2.throb || Destroy) return;
 
             health-=damage;
 
             if (damage <0 || health < 0f || FlatUtil.IsNearlyEqual(health, 0f))
             {
+
                 health = 0;
                 Destroy = true;
                 ani_status = Hero_Status2.idle;
@@ -263,9 +295,11 @@ namespace ShootingGame
         {
             if (status == Hero_Status.bottomed) return false;
 
-            return this.flatBody.LinearVelocity.Y < -2f && (a - b > 1f);
-
-
+            if (this.flatBody.LinearVelocity.Y < -2f && (a - b > 1f))
+            {
+                return true;
+            }
+            return false;
         }
 
 
@@ -328,7 +362,7 @@ namespace ShootingGame
             {
                 if (falling(tmpY,pos.Y))
                 {
-                    status = Hero_Status.aerial;
+                 //   status = Hero_Status.aerial;
                     ChangeCurrentAnimation(3);
                 }
 

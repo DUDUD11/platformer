@@ -40,15 +40,23 @@ namespace ShootingGame
          
         }
 
+        public override bool GetFlatBody(out FlatBody _flatBody)
+        {
+            _flatBody = null;
 
-
-
+            if (this.flatBody != null)
+            {
+                _flatBody = flatBody;
+                return true;
+            }
+            return false;
+        }
         protected void InitFlatBody(Vector2 pos, Vector2 size)
         {
 
             if (shapeType == ShapeType.Box)
             {
-                if (!FlatBody.CreateBoxBody(size.X * FlatAABB.HitBoxSize, size.Y * FlatAABB.HitBoxSize,
+                if (!FlatBody.CreateBoxBody(size.X, size.Y,
                 1f, true, 0.5f, out FlatBody TrapBody, out string errorMessage))
                 {
                     throw new Exception(errorMessage);

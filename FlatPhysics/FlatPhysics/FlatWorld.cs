@@ -79,6 +79,14 @@ namespace FlatPhysics
             jList = new float[2];
         }
 
+        public void Clear()
+        {
+            for (int i = 0; i < world_layer; i++)
+            {
+                bodyList[i].Clear();
+            }
+        }
+
         public void AddBody(FlatBody body,Wolrd_layer wolrd_Type)
         {
             bodyList[(int)wolrd_Type].Add(body);

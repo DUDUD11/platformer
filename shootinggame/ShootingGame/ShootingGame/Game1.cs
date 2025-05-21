@@ -30,7 +30,6 @@ namespace ShootingGame
         Dialog
     }
 
-
     public class Game1 : Game
     {
         //  public static System.Globalization.CultureInfo Culture = System.Globalization.CultureInfo.InvariantCulture; 
@@ -103,6 +102,7 @@ namespace ShootingGame
 
             //  filepath =  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); 
         }
+    
 
         public static void AntiAliasingShader(Texture2D texture, Vector2 dims, int Mirror = 0)
         {
@@ -230,7 +230,7 @@ namespace ShootingGame
             //FlatUtil.SetRelativeBackBufferSize(graphics, 0.5f); 
             IsFixedTimeStep = true;
 
-            FlatUtil.SetAbsoulteBackBufferSize(graphics, 1920, 1080);
+            FlatUtil.SetAbsoulteBackBufferSize(graphics, 1900, 900);
 
             screen = new Screen(this, 1920, 1080);
             sprites = new Sprites(this);
@@ -313,7 +313,7 @@ namespace ShootingGame
         protected override void LoadContent()
         {
             #region Hero
-            hero = new Hero(this, "Animation\\Hero\\Idle", new Vector2(200, 300), new Vector2(50, 50), FlatWorld.Wolrd_layer.Hero_allias, 100);
+            hero = new Hero(this, "Animation\\Hero\\Idle", new Vector2(-9999, -9999), new Vector2(50, 50), FlatWorld.Wolrd_layer.Hero_allias, 100);
             hero.AddAnimation(new Vector2(1, 1), "Animation\\Hero\\Jump", 1, 100, "Jump", 1);
             hero.AddAnimation(new Vector2(6, 1), "Animation\\Hero\\Double_Jump", 6, 100, "Double_Jump", 2);
             hero.AddAnimation(new Vector2(1, 1), "Animation\\Hero\\Fall", 1, 100, "Fall", 3);
@@ -394,8 +394,9 @@ namespace ShootingGame
             ////AddSpriteWithBody(MovingPlatform, MovingPlatform.flatBody, FlatWorld.Wolrd_layer.Static_allias);
 
             //#endregion Trap
-
-            mapDeployment.Load_Map(1, 1);
+            
+            mapDeployment.Load_FirstMap(1, 13,hero);
+            //14부터고치셈
 
             SoundControl.BkgMusicChange(this, "ImGood", "Audio\\ImGood", 0.05f);
             SoundControl.SoundAdd(new SoundItem(this, "FireSound", "Audio\\Projectile\\FireSound", 1f));
@@ -570,6 +571,39 @@ namespace ShootingGame
 
                 CheckGameOver(out GamePlay_status prev);
 
+                if (mapDeployment.Map_Changed)
+                {
+
+
+                    ClearAllBody();
+                    AddSpriteWithBody(hero, hero.FlatBody, FlatWorld.Wolrd_layer.Hero_allias);
+                    mapDeployment.Set_Load_Map();
+
+                    mapDeployment.currentMapSize();
+                    mapDeployment.Map_Changed = false;
+
+                    if (hero.FlatBody.Position.X < -9000)
+                    {
+                        hero.pos = hero.Revive_Pos;
+                        hero.FlatBody.MoveTo(new FlatVector(hero.pos.X,hero.pos.Y));
+                    }
+                    else
+                    {
+                        Vector2 Offset_Vec = mapDeployment.Hero_Offset();
+
+
+                        hero.pos.Y -= Offset_Vec.Y;
+                        hero.pos.X -= Offset_Vec.X;
+                        hero.FlatBody.MoveTo(new FlatVector(hero.pos.X, hero.pos.Y));
+
+                        Camera_Offset();
+
+
+                    }
+
+                }
+
+
                 #region UpdateUI
 
                 for (int i = 0; i < uIEntityList.Count; i++)
@@ -730,7 +764,7 @@ namespace ShootingGame
 
                 if (mouse.IsRightMouseButtonPressed())
                 {
-                    camera.Shake(0.5f, new Vector2(5, 5), 0.05f);
+                   
                 }
 
                 //      FlatVector cursorDir = CursorDirection(mouseWorldPosition);
@@ -792,11 +826,20 @@ namespace ShootingGame
                             dy--;
                         }
 
+                        if (dx != 0 || dy != 0)
+                        {
+                            hero.Hero_Moved = true;
+
+                        }
+
                         if (keyboard.IsKeyClicked(Keys.Space))
                         {
-                            if (hero.status == Hero.Hero_Status.bottomed || hero.status == Hero.Hero_Status.MovingPlatform)
+                            
+                            if (hero.status == Hero.Hero_Status.bottomed || hero.status == Hero.Hero_Status.MovingPlatform || (hero.status == Hero.Hero_Status.aerial && !hero.Jumped))
                             {
                                 hero.Jump();
+                                hero.Hero_Moved = true;
+                           
                             }
 
                             else if (hero.status == Hero.Hero_Status.wallContact && (hero.WallJumpLastTime + (double)Hero.WallJumpCooldown) < Game1.WorldTimer.Elapsed.TotalSeconds)
@@ -806,13 +849,14 @@ namespace ShootingGame
                                     FlatVector forecdirection = FlatPhysics.FlatMath.Normalize(new FlatVector(dx, dy));
 
                                     hero.WallJump(forecdirection);
-
+                                    hero.Hero_Moved = true;
                                 }
                             }
 
-                            else if ((hero.JumpLastTime + (double)Hero.DoubleJumpIntime) > Game1.WorldTimer.Elapsed.TotalSeconds)
+                            else if ((hero.JumpLastTime + (double)Hero.DoubleJumpIntime) > Game1.WorldTimer.Elapsed.TotalSeconds && hero.Jumped)
                             {
                                 hero.DoubleJump();
+                                hero.Hero_Moved = true;
                             }
                         }
 
@@ -846,6 +890,11 @@ namespace ShootingGame
                     }
                 }
 
+                else
+                {
+                    hero.Hero_Moved = false;
+                }
+
 
                 {
 
@@ -858,9 +907,22 @@ namespace ShootingGame
 
                 #endregion
 
+                Vector2 hero_vel = FlatVector.ToVector2(hero.FlatBody.LinearVelocity);
+                
                 this.world.Step(FlatUtil.GetElapsedTimeInSeconds(gameTime), 20);
 
-                List<Mob> mobs = new List<Mob>();
+                hero.delta_Velocity = hero_vel - FlatVector.ToVector2(hero.FlatBody.LinearVelocity);
+                hero.delta_Velocity = new Vector2(hero.delta_Velocity.X * Hero.MovingPlatformWalkFactor, hero.delta_Velocity.Y);
+                hero.delta_Velocity = new Vector2(MathHelper.Clamp(hero.delta_Velocity.X, -100f, 100f), MathHelper.Clamp(hero.delta_Velocity.Y, -100f, 100f));
+                hero.delta_Velocity = new Vector2(-hero.delta_Velocity.X, hero.delta_Velocity.Y);
+
+                if (!hero.Hero_Moved)
+                {
+                    hero.delta_Velocity = Vector2.Zero;
+                    hero.Hero_Moved = false;
+                }
+
+                    List<Mob> mobs = new List<Mob>();
 
                 for (int i = 0; i < spriteList.Count; i++)
                 {
@@ -904,8 +966,15 @@ namespace ShootingGame
                 {
                     // 타일과 trap등의 처리도 필요함
 
+                    
+
                     if (spriteMap.TryGetValue(tuple.Item1, out SpriteEntity a) && a is Hero _ah)
                     {
+                        if (_ah.status == Hero.Hero_Status.MovingPlatform)
+                        {
+                            hero.Get_Hit(9999);
+                        }
+
 
                         if (TileMap.FlatBodyIsBottom(tuple.Item2, _ah))
                         {
@@ -915,13 +984,20 @@ namespace ShootingGame
                         else if (TileMap.FlatBodyIsSideWall(tuple.Item2, _ah))
                         {
                             _ah.WallReach();
+                            
                         }
 
+                        TileMap.Interact(tuple.Item2, _ah);
 
                     }
 
                     else if (spriteMap.TryGetValue(tuple.Item2, out SpriteEntity b) && b is Hero _bh)
                     {
+
+                        if (_bh.status == Hero.Hero_Status.MovingPlatform)
+                        {
+                            hero.Get_Hit(9999);
+                        }
 
                         if (TileMap.FlatBodyIsBottom(tuple.Item1, _bh))
                         {
@@ -932,7 +1008,12 @@ namespace ShootingGame
                         {
                             _bh.WallReach();
                         }
+
+
+                        TileMap.Interact(tuple.Item1, _bh);
                     }
+
+                    
 
                 }
 
@@ -1114,10 +1195,16 @@ namespace ShootingGame
 
             base.Update(gameTime);
         }
+        public void Shake_Effect()
+        {
+            camera.Shake(0.5f, new Vector2(5, 5), 0.05f);
+        }
 
-
+      
         private void MoveScreen()
         {
+            if (hero.pos.X < -9000 ) return;
+
             Vector2 Map_Size = mapDeployment.currentMapSize();
             bool update = false;
 
@@ -1156,10 +1243,12 @@ namespace ShootingGame
 
             if (update)
             {
+             
                 camera.GetExtents(out left, out right, out bottom, out top);
             }
 
-            if (Out_of_position(out int dir))
+            //out of position 위치 정보는 화면 밖인지 정확하게 판단하지 않지만 현재는 충분함
+            if (!update && Out_of_position(out int dir))
             {
                 //맵을 바꾸든가 죽게 처리
                 {
@@ -1167,15 +1256,61 @@ namespace ShootingGame
 
                     if (next_map != null)
                     {
-                        mapDeployment.Load_Map(next_map);
+                       
+
+                        mapDeployment.Load_Map(next_map,hero);
+                        this.Camera_Reset();
                     }
                     else
                     {
+                       
                         // kill instantly
                         hero.Get_Hit(-1);
                     }
                 }
             }
+
+        }
+
+        private void Camera_Offset()
+        {
+            Vector2 Map_Size = mapDeployment.currentMapSize();
+            bool update = false;
+            if (hero.pos.X > screen_width )
+            {
+                float remain = Map_Size.X - (screen_width);
+                camera.Move(new Vector2(remain, 0));
+                offset.X += remain;
+                update = true;
+            }
+
+          
+            if (hero.pos.Y > screen_height )
+            {
+
+                float remain = Map_Size.Y - (screen_height);
+                camera.Move(new Vector2(0, remain));
+                offset.Y += remain;
+                update = true;
+            }
+
+            if (update)
+            {
+
+                camera.GetExtents(out left, out right, out bottom, out top);
+            }
+
+        }
+
+        public void Camera_Reset()
+        {
+       
+
+            camera.MoveTo(Vector2.Zero);
+            offset = Vector2.Zero;
+            camera.GetExtents(out left, out right, out bottom, out top);
+
+
 
         }
 
@@ -1246,6 +1381,16 @@ namespace ShootingGame
         {
             world.RemoveBody(flatBody, wolrd_Type);
         }
+
+        public void ClearAllBody()
+        {
+            spriteMap.Clear();
+            world.Clear();  
+            spriteList.Clear();
+            TileMap.Clear();
+        
+        }
+
 
        
 
@@ -1415,9 +1560,9 @@ namespace ShootingGame
 
                    
 
-                    if (spriteEntity is not Fireball)
+                    if (spriteEntity is not Fireball )
                     {
-                        
+                        if (spriteEntity is not FallingTile)
                         shapes.DrawBox(adjustPos, spriteEntity.dims.X, spriteEntity.dims.Y, Color.White);
                     }
                     else

@@ -19,7 +19,7 @@ namespace ShootingGame
         //  0      1
 
         public readonly static Vector2 MovingPlatForm_Frames = new Vector2(1, 1);
-        public readonly static Vector2 MovingPlatForm_Dims = TileMap.Tile_Dims * 2;
+        public readonly static Vector2 MovingPlatForm_Dims = TileMap.Tile_Dims * 3;
         public readonly static string MovingPlatForm_path = "Trap\\MovingPlatForm";
         public static int Addition_variable = 2;
         public Vector2[] rect_pos;
@@ -28,6 +28,7 @@ namespace ShootingGame
      
         public float Reach_time;
         public bool active = false;
+        public Vector2 cur_velocity = Vector2.Zero;
         
         private int dir = 0;
         private Hero hero;
@@ -53,14 +54,21 @@ namespace ShootingGame
         public override void Interact(SpriteEntity spriteEntity)
         {
 
-            if (active) return;
+            if (spriteEntity is not Hero hero) return;
 
-            if (spriteEntity is Hero hero && hero.pos.Y >= (this.pos.Y+dims.Y/2))
+
+            if (active)
+            {
+                hero.FlatBody.LinearVelocity = new FlatVector(cur_velocity.X, cur_velocity.Y) + new FlatVector(hero.delta_Velocity.X,hero.delta_Velocity.Y);
+                return;
+            }
+
+            if (hero.pos.Y >= (this.pos.Y+dims.Y/2))
             {
                 this.active = true;
                 dir = (dir + 1) % 4;
 
-                Vector2 velocity = (rect_pos[dir] - rect_pos[h(dir - 1)]) / (Reach_time);
+                cur_velocity = (rect_pos[dir] - rect_pos[h(dir - 1)]) / (Reach_time);
 
                 if (this.hero == null)
                 {
@@ -69,7 +77,7 @@ namespace ShootingGame
 
                 hero.status = Hero.Hero_Status.MovingPlatform;
                
-                hero.FlatBody.LinearVelocity = new FlatVector(velocity.X, velocity.Y);
+                hero.FlatBody.LinearVelocity = new FlatVector(cur_velocity.X, cur_velocity.Y);
                
             }
 
@@ -95,7 +103,10 @@ namespace ShootingGame
 
             if (this.hero != null)
             {
-
+                if (FlatMath.Length(hero.FlatBody.Position - flatBody.Position) > hero.dims.Length())
+                {
+                    hero.status = Hero.Hero_Status.aerial;
+                }
                 //movingflatform 에위치하는지 확인하고 false해줘야함
 
            //     hero.FlatBody.LinearVelocity = new FlatVector(velocity.X, velocity.Y);

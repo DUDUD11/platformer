@@ -1,4 +1,5 @@
-﻿using Flat.Graphics;
+﻿using Flat;
+using Flat.Graphics;
 using FlatPhysics;
 using Microsoft.Xna.Framework;
 using System;
@@ -30,6 +31,12 @@ namespace ShootingGame
         public List<Spine> SpineList;
         public bool active = false;
         private int dir = 0;
+        private bool side = false;
+        private bool left = false;
+        private bool right = false;
+        private bool detach = false;
+        
+        public Vector2 cur_velocity = Vector2.Zero;
 
         public static Vector2 SpineMovingPlatform_dims = MovingPlatForm.MovingPlatForm_Dims;
 
@@ -41,6 +48,9 @@ namespace ShootingGame
             base(game, MovingPlatForm.MovingPlatForm_path, init_pos, SpineMovingPlatform_dims, reach_time, FlatBody.ShapeType.Box, MovingPlatForm.MovingPlatForm_Frames, 0,true,null)
         {
             this.rect_pos = new Vector2[4];
+
+            if (!FlatUtil.IsNearlyEqual(init_pos.X - Diagnoal_pos.X, 0f)) left = true;
+            if (!FlatUtil.IsNearlyEqual(init_pos.Y - Diagnoal_pos.Y, 0f)) right = true;
 
             rect_pos[0] = init_pos;
             rect_pos[2] = Diagnoal_pos;
@@ -56,11 +66,15 @@ namespace ShootingGame
 
             if ((spine_dir & 1) == 1)
             {
-                for (int i = (int)init_pos.X; i < (int)init_pos.X+ (int)SpineMovingPlatform_dims.X; i += (int)Spine.spine_Dims.X)
+                int startX = (int)init_pos.X;
+                int endX = startX + (int)SpineMovingPlatform_dims.X;
+                int stepX = (int)Spine.spine_Dims.X;
+                int posY = (int)(init_pos.Y - Spine.spine_Dims.Y + SpineMovingPlatform_dims.Y);
+                side = true;
+                for (int x = startX; x < endX; x += stepX)
                 {
-      
-                    SpineList.Add(new Spine(game, new Vector2(i - (int)Spine.spine_Dims.X / 2, Diagnoal_pos.Y - (int)Spine.spine_Dims.Y/2 + (int)SpineMovingPlatform_dims.Y/2)));
-
+                    var position = new Vector2(x - stepX, posY);
+                    SpineList.Add(new Spine(game, position));
                 }
             }
 
@@ -68,18 +82,23 @@ namespace ShootingGame
             {
                 for (int i = (int)init_pos.Y; i < (int)init_pos.Y + (int)SpineMovingPlatform_dims.Y; i += (int)Spine.spine_Dims.Y)
                 {
-                    SpineList.Add(new Spine(game, new Vector2(init_pos.X - (int)Spine.spine_Dims.X/2 -(int)SpineMovingPlatform_dims.X/2, i - (int)Spine.spine_Dims.Y/2), MathHelper.PiOver2));
+                    SpineList.Add(new Spine(game, new Vector2(init_pos.X - (int)Spine.spine_Dims.X/2 -(int)SpineMovingPlatform_dims.X/2, i - (int)Spine.spine_Dims.Y), MathHelper.PiOver2));
 
                 }
             }
 
             if ((spine_dir & 4) == 4)
             {
-                for (int i = (int)init_pos.X; i < (int)init_pos.X + (int)SpineMovingPlatform_dims.X; i += (int)Spine.spine_Dims.X)
+                int startX = (int)init_pos.X;
+                int endX = startX + (int)SpineMovingPlatform_dims.X;
+                int stepX = (int)Spine.spine_Dims.X;
+                int posY = (int)(init_pos.Y -  Spine.spine_Dims.Y/2 - SpineMovingPlatform_dims.Y/2);
+
+
+                for (int x = startX; x < endX; x += stepX)
                 {
-
-                    SpineList.Add(new Spine(game, new Vector2(i - (int)Spine.spine_Dims.X / 2, init_pos.Y - (int)Spine.spine_Dims.Y / 2 - (int)SpineMovingPlatform_dims.Y/2 ), MathHelper.PiOver2*2));
-
+                    var position = new Vector2(x - stepX, posY);
+                    SpineList.Add(new Spine(game, position, MathHelper.PiOver2 * 2));
                 }
             }
 
@@ -87,7 +106,7 @@ namespace ShootingGame
             {
                 for (int i = (int)init_pos.Y; i < (int)init_pos.Y + (int)SpineMovingPlatform_dims.Y; i += (int)Spine.spine_Dims.Y)
                 {
-                    SpineList.Add(new Spine(game, new Vector2(Diagnoal_pos.X - (int)Spine.spine_Dims.X / 2 + (int)SpineMovingPlatform_dims.X / 2, i - (int)Spine.spine_Dims.Y / 2), MathHelper.PiOver2*3));
+                    SpineList.Add(new Spine(game, new Vector2(init_pos.X + (int)Spine.spine_Dims.X / 2 + (int)SpineMovingPlatform_dims.X / 2, i - (int)Spine.spine_Dims.Y ), MathHelper.PiOver2*3));
 
                 }
             }
@@ -97,33 +116,91 @@ namespace ShootingGame
         }
 
 
+
+
+
+
+
+
         public override void Interact(SpriteEntity spriteEntity)
         {
-            if (active) return;
 
-            //if (spriteEntity is Hero hero && hero.pos.Y >= (this.pos.Y + dims.Y / 2))
-            if (spriteEntity is Hero hero)
+
+            if (spriteEntity is not Hero hero) return;
+
+            detach = false;
+
+
+            if (active)
+            {
+               
+                
+
+                hero.FlatBody.LinearVelocity = new FlatVector(cur_velocity.X, cur_velocity.Y) + new FlatVector(hero.delta_Velocity.X, hero.delta_Velocity.Y);
+ 
+                
+
+                return;
+            }
+
+            if (hero.pos.Y >= (this.pos.Y + dims.Y / 2))
             {
                 this.active = true;
-                dir = (dir + 1) % 4;
+                int prev_dir = dir;
+                dir = direction(dir);
 
-                Vector2 velocity = (rect_pos[dir] - rect_pos[h(dir - 1)]) / (Reach_time);
+                cur_velocity = (rect_pos[dir] - rect_pos[prev_dir]) / (Reach_time);
 
                 if (this.hero == null)
                 {
                     this.hero = hero;
                 }
+
                 hero.status = Hero.Hero_Status.MovingPlatform;
-                hero.FlatBody.LinearVelocity = new FlatVector(velocity.X, velocity.Y);
+            
+                hero.FlatBody.LinearVelocity = new FlatVector(cur_velocity.X, cur_velocity.Y);
+
+            }
+
+            else if (side && hero.pos.Y >= (this.pos.Y - dims.Y / 2))
+            {
+                this.active = true;
+                int prev_dir = dir;
+                dir = direction(dir);
+
+                cur_velocity = (rect_pos[dir] - rect_pos[prev_dir]) / (Reach_time);
+
+                if (this.hero == null)
+                {
+                    this.hero = hero;
+                }
+
+                hero.status = Hero.Hero_Status.MovingPlatform;         
+
+                hero.FlatBody.LinearVelocity = new FlatVector(cur_velocity.X, cur_velocity.Y );
+
 
             }
 
 
         }
 
-        private int h(int a)
+        private int direction(int a)
         {
-            return (a + 4) % 4;
+            if (left && right) a = (a + 1) % 4;
+            if (left)
+            {
+                a = (a + 1) % 2;
+            }
+
+            if (right)
+            {
+                if (a == 0) a = 3;
+                else a = 0;
+            }    
+
+
+            return a;
         }
 
 
@@ -133,27 +210,37 @@ namespace ShootingGame
 
             if (!this.active) return;
 
-            Vector2 velocity = (rect_pos[dir] - rect_pos[h(dir - 1)]) / (Reach_time);
+            int prev_dir = dir;
+
             float t = Flat.FlatUtil.GetElapsedTimeInSeconds(Game1.WorldGameTime);
 
-            if (this.hero != null)
+
+            if (this.hero != null && !detach)
             {
 
-                //movingflatform 에위치하는지 확인하고 false해줘야함
+                if (!Collisions.ContactAABBs(hero.FlatBody.GetAABB(), this.flatBody.GetAABB()))
+                {
+                    hero.status = Hero.Hero_Status.aerial;
+                    hero.Jumped = false;
+                    detach = true;
+                }
 
-                //     hero.FlatBody.LinearVelocity = new FlatVector(velocity.X, velocity.Y);
-                // 물리에서 마찰력 각속도 free 해줘야할듯 
+                else
+                { 
+                
+                }
             }
 
-
-            if (FlatMath.NearlyEqual(FlatMath.Length(new FlatVector(rect_pos[dir].X, rect_pos[dir].Y) - flatBody.Position), 0f))
+            if (FlatPhysics.FlatMath.NearlyEqual(FlatPhysics.FlatMath.Length(new FlatVector(rect_pos[dir].X, rect_pos[dir].Y) - flatBody.Position), 0f))
             {
                 active = false;
+               
+
             }
 
             else
             {
-                FlatVector delta = new FlatVector(t * velocity.X, t * velocity.Y);
+                FlatVector delta = new FlatVector(t * cur_velocity.X, t * cur_velocity.Y);
 
                 flatBody.Move(delta);
                 this.pos = FlatVector.ToVector2(flatBody.Position);
@@ -162,7 +249,10 @@ namespace ShootingGame
                 {
                     if (SpineList[i] != null) // 없어졌을수도있음
                     {
+               
                         SpineList[i].Move(delta);
+                   
+
                     }
                 
                 }

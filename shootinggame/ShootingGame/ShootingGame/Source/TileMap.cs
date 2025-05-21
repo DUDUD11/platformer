@@ -57,6 +57,25 @@ namespace ShootingGame
         // bridge,  
         public static List<FlatBody> SpecialTileFlatBody = new List<FlatBody>();
 
+        public static void Clear()
+        { 
+            StaticTiles.Clear();
+            DynamicTiles.Clear();
+            SpecialTileFlatBody.Clear();    
+        }
+
+        public static void Interact(FlatBody tilebody, SpriteEntity spriteEntity)
+        {
+            for (int i = 0; i < DynamicTiles.Count; i++)
+            {
+                if (DynamicTiles[i].flatBody == tilebody)
+                {
+                    DynamicTiles[i].Interact(spriteEntity);
+                }
+            }
+        }
+
+
         public static void Update(Hero hero)
         {
             for (int i = 0; i < SpecialTileFlatBody.Count; i++)
@@ -67,11 +86,12 @@ namespace ShootingGame
                 {
                     tmp.active = false;
                     // 사실 heroactive 하면 좋을듯 아니면 특정 world type에만
+                  
                 }
 
                 else
                 {
-                    tmp.active = true;
+                   tmp.active = true;
                 }
             
             }
@@ -107,6 +127,7 @@ namespace ShootingGame
                 if (tmp != bridge)
                 {
                     seq = true;
+   
                     break;
                 }
 
@@ -116,17 +137,19 @@ namespace ShootingGame
             }
 
        
+
             InitFlatBody(game, Vector2.Add(init_pos_center , pos_helper - Tile_Dims_X) / 2, new Vector2(i, 1),out _,true,false);
 
             if (bridge)
             {
                 SpecialTileFlatBody.Add(_);
+           
             }
 
 
             if (seq)
             {
-                Add_StaticTiles_Horizontal(game, pos_helper, num - i, path.GetRange(i, path.Count - i));
+                Add_StaticTiles_Horizontal(game, pos_helper-Tile_Dims/2, num - i, path.GetRange(i, path.Count - i));
               
             }
 

@@ -76,6 +76,8 @@ namespace ShootingGame
         static_spine = 4,
         distile = 5,
         SpineMovingPlatform = 6,
+        fallingTile = 7,
+
 
     }
 
@@ -93,6 +95,7 @@ namespace ShootingGame
         public int Map_width = 1920 / TileMap.Tile_Size;
         public int Map_height = (1080 / TileMap.Tile_Size)+1;
         public Tuple<int, int> ResetPoint = Tuple.Create(0, 0);
+        public Tuple<int, int> Offset = Tuple.Create(0, 0);
         public List<List<Tuple<int, int>>> Deploy;
         public List<List<Object>> DeployInfo;
 
@@ -144,10 +147,10 @@ namespace ShootingGame
 
         }
 
-        private void Init(Tuple<int, int> resetPoint)
+        private void Init(Tuple<int, int> resetPoint, Tuple<int,int > Offset)
         {
-            this.ResetPoint = resetPoint;
-
+            this.ResetPoint = new Tuple<int, int>(resetPoint.Item1 * (int)TileMap.Tile_Dims.X, resetPoint.Item2 * (int)TileMap.Tile_Dims.Y);
+            this.Offset = new Tuple<int, int>(Offset.Item1 * (int)TileMap.Tile_Dims.X, Offset.Item2 * (int)TileMap.Tile_Dims.Y);
             Deploy = new List<List<Tuple<int, int>>>();
             DeployInfo = new List<List<Object>>();
 
@@ -175,19 +178,21 @@ namespace ShootingGame
 
 
 
-        public Map(Tuple<int, int> resetPoint)
+        public Map(Tuple<int, int> resetPoint, Tuple<int, int> Offset)
         {
 
-            Init(resetPoint);
+            Init(resetPoint, Offset);
 
         }
 
         [JsonConstructor]
-        public Map(Tuple<int, int> resetPoint, int map_width, int map_height)
+        public Map(Tuple<int, int> resetPoint, Tuple<int, int> Offset, int map_width, int map_height)
         {
             Set_MapSize(map_width, map_height);
-            Init(resetPoint);
+            Init(resetPoint, Offset);
         }
+
+        
 
 
         public void Map_Update(int x, int y,Tuple<int,int> val)
@@ -196,9 +201,6 @@ namespace ShootingGame
 
             Deploy[y][x] = val;
         }
-
-
-
 
         public static string GetTexture(Tuple<int,int> pos)
         { 

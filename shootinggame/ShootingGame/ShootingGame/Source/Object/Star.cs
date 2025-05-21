@@ -64,7 +64,7 @@ namespace ShootingGame
 
         private void Hero_Reach()
         {
-            GetMsg = new Message(game, false, pos, msg_sz, star_point.ToString(), msg_livetime, Color.OrangeRed);
+            GetMsg = new Message(game, false, pos-Game1.offset, msg_sz, star_point.ToString(), msg_livetime, Color.OrangeRed);
             game.Add_UIEntityMessage(GetMsg);    
         }
 
