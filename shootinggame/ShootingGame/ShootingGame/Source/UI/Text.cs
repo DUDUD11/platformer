@@ -31,14 +31,14 @@ namespace ShootingGame {
 
         public override void Draw(Sprites sprite)
         {
-            Color mobkilled_color = Color.Black;
+            //Color mobkilled_color = Color.Black;
             
-            Game1.NoAntiAliasingShader(mobkilled_color);
+            //Game1.NoAntiAliasingShader(mobkilled_color);
 
 
-            string mobkilled = "Num killed = " + MobKilled;
-            Vector2 strDims = Font.MeasureString(mobkilled);
-            sprite.DrawString(Font, mobkilled, new Vector2(Game1.screen_width / 2 - strDims.X / 2, Game1.screen_height / 8), mobkilled_color);
+            //string mobkilled = "Num killed = " + MobKilled;
+            //Vector2 strDims = Font.MeasureString(mobkilled);
+            //sprite.DrawString(Font, mobkilled, new Vector2(Game1.screen_width / 2 - strDims.X / 2, Game1.screen_height / 8), mobkilled_color);
 
             //if (Game1.GameOver())
             //{

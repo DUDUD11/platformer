@@ -94,7 +94,10 @@ namespace FlatPhysics
 
         public bool RemoveBody(FlatBody body, Wolrd_layer wolrd_Type)
         {
-            return bodyList[(int)wolrd_Type].Remove(body);
+            bool remove = bodyList[(int)wolrd_Type].Remove(body);
+
+
+            return remove;
         }
 
         public bool GetBody(int index, out FlatBody body, Wolrd_layer wolrd_Type) 
@@ -219,6 +222,9 @@ namespace FlatPhysics
                 FlatBody bodyI = bodyList[1][i];
                 FlatAABB bodyI_aabb = bodyI.GetAABB();
 
+                if (bodyI.OnlyHero) continue;
+
+
                 for (int j = 0; j < bodyList[2].Count; j++)
                 {
                     FlatBody bodyJ = bodyList[2][j];
@@ -291,6 +297,9 @@ namespace FlatPhysics
                 FlatBody bodyI = quad.Item1;
                 FlatBody bodyJ = quad.Item2;
 
+            
+
+
                 if (bodyI.isTile && bodyJ.isTile)
                 {
                     continue;
@@ -311,6 +320,12 @@ namespace FlatPhysics
                     else
                     {
                         CollideTuple.Add((bodyI, bodyJ));
+                    }
+
+                    if (bodyI.OnlyHero || bodyJ.OnlyHero)
+                    {
+                        continue;
+                        // OnlyHero의 경우 충돌처리는 무시하도록한다. 일단
                     }
 
                     SeparateBodies(bodyI, bodyJ, normal * depth);
@@ -371,7 +386,7 @@ namespace FlatPhysics
 
                 }
             }
-
+            //Hero
             bodyList[0][0].Angle = 0f;
         }
 

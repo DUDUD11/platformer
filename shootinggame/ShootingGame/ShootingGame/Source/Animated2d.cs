@@ -214,8 +214,8 @@ namespace ShootingGame
 
         public override void Draw(Sprites sprite, Vector2 o, float Angle)
         {
-
-         //   Game1.AntiAliasingShader(model, dims, Animation_Set[currentAnimation].FrameSize);
+            //hero 등에서는 이미 바꾸기때문
+       //     Game1.AntiAliasingShader(model, dims, Animation_Set[currentAnimation].FrameSize);
 
             if (AnimationFlag && FrameAnimationList.Count !=0 && FrameAnimationList[currentAnimation].Frames > 0)
             {
@@ -230,6 +230,11 @@ namespace ShootingGame
                 
             }
         }
+
+        
+
+
+
 
     }
 }

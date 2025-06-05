@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Wmg3zaQIcZI=",
+  "dgSpecHash": "y7J9vSB5r8c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\Flat\\Flat\\Flat.csproj",
+  "projectFilePath": "E:\\clone\\DUDUD11\\platformer\\Flat\\Flat\\Flat.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kim42\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
     "C:\\Users\\kim42\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",

@@ -22,6 +22,10 @@
     <None Remove="Content\2d\Portal.xnb" />
     <None Remove="Content\2d\Tower.xnb" />
     <None Remove="Content\Animation\HeroSheet.xnb" />
+    <None Remove="Content\Animation\Rino\Hit.png" />
+    <None Remove="Content\Animation\Rino\Idle.png" />
+    <None Remove="Content\Animation\Rino\one.png" />
+    <None Remove="Content\Animation\Rino\Run.png" />
     <None Remove="Content\Audio\ImGood.wav" />
     <None Remove="Content\Audio\Projectile\ArrowFire.xnb" />
     <None Remove="Content\Audio\Projectile\ArrowHit.xnb" />
@@ -34,6 +38,31 @@
     <None Remove="Content\Audio\Projectile\IceHit.xnb" />
     <None Remove="Content\Audio\Projectile\LightningShoot.xnb" />
     <None Remove="Content\Audio\Projectile\Shock.xnb" />
+    <None Remove="Content\Deco\Box.png" />
+    <None Remove="Content\Deco\Box2.png" />
+    <None Remove="Content\Deco\Box3.png" />
+    <None Remove="Content\Deco\downsign.png" />
+    <None Remove="Content\Deco\leftsign.png" />
+    <None Remove="Content\Deco\ramp.png" />
+    <None Remove="Content\Deco\rightsign.png" />
+    <None Remove="Content\Deco\Snow.png" />
+    <None Remove="Content\Deco\SnowDeco.png" />
+    <None Remove="Content\Deco\SnowDeco2.png" />
+    <None Remove="Content\Deco\SnowDeco3.png" />
+    <None Remove="Content\Deco\Spear.png" />
+    <None Remove="Content\Deco\Spear2.png" />
+    <None Remove="Content\Deco\Stone.png" />
+    <None Remove="Content\Deco\Stone2.png" />
+    <None Remove="Content\Deco\Stone3.png" />
+    <None Remove="Content\Deco\Tent.png" />
+    <None Remove="Content\Deco\Tent2.png" />
+    <None Remove="Content\Deco\Tree.png" />
+    <None Remove="Content\Deco\Tree2.png" />
+    <None Remove="Content\Deco\Tree3.png" />
+    <None Remove="Content\Deco\Tree4.png" />
+    <None Remove="Content\Deco\Tree5.png" />
+    <None Remove="Content\Deco\Tree6.png" />
+    <None Remove="Content\Deco\upsign.png" />
     <None Remove="Content\Effects\AuraLine.xnb" />
     <None Remove="Content\Effects\base.fx" />
     <None Remove="Content\Effects\CannonBallExplosion.xnb" />
@@ -66,12 +95,15 @@
     <None Remove="Content\Layer\Layer_8.png" />
     <None Remove="Content\Layer\Layer_9.png" />
     <None Remove="Content\Particle\particle.png" />
+    <None Remove="Content\Particle\snow_flake.png" />
     <None Remove="Content\Projectile\AcidBall.xnb" />
     <None Remove="Content\Projectile\Arrow.xnb" />
     <None Remove="Content\Projectile\Fireball.xnb" />
     <None Remove="Content\Shader\NormalHighlight.fx" />
     <None Remove="Content\Shader\Test.fx" />
     <None Remove="Content\Shader\Throb.fx" />
+    <None Remove="Content\Sprite\BluePoint.png" />
+    <None Remove="Content\Sprite\CheckPoint.png" />
     <None Remove="Content\Sprite\circle.xnb" />
     <None Remove="Content\Sprite\Diamond.png" />
     <None Remove="Content\Sprite\Hero.xnb" />
@@ -191,16 +223,19 @@
     <None Remove="Content\Tiles\Tile_96.png" />
     <None Remove="Content\Tiles\Tile_97.png" />
     <None Remove="Content\Tiles\Tile_99.png" />
+    <None Remove="Content\Trap\Door.png" />
     <None Remove="Content\Trap\electric.png" />
     <None Remove="Content\Trap\fallingTile.png" />
     <None Remove="Content\Trap\JumpTrap.png" />
+    <None Remove="Content\Trap\redtile.png" />
     <None Remove="Content\Trap\SawBlade.png" />
-    <None Remove="Content\Trap\Shrink.png" />
     <None Remove="Content\Trap\spine.png" />
+    <None Remove="Content\Trap\spinetile.png" />
     <None Remove="Content\Trap\static_spine.png" />
     <None Remove="Content\UI\Animation\CheckBox.xnb" />
     <None Remove="Content\UI\ArrowLeft.xnb" />
     <None Remove="Content\UI\ArrowRight.xnb" />
+    <None Remove="Content\UI\Filled X.png" />
     <None Remove="Content\UI\Icons\Blink.xnb" />
     <None Remove="Content\UI\Icons\Dialog.png" />
     <None Remove="Content\UI\Icons\EnterButton.png" />
@@ -216,7 +251,100 @@
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Animation\Rino\Hit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Rino\Idle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Rino\one.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Animation\Rino\Run.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\ImGood.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Box.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Box2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Box3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\downsign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\leftsign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\ramp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\rightsign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Snow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\SnowDeco.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\SnowDeco2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\SnowDeco3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Spear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Spear2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Stone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Stone2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Stone3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tent.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tent2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tree.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tree2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tree3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tree4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tree5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\Tree6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Deco\upsign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Particle\particle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Particle\snow_flake.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Shader\shrinkCircle.fx">
@@ -226,6 +354,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Shader\Test.fx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\BluePoint.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprite\CheckPoint.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sprite\Diamond.png">
@@ -581,9 +715,6 @@
     <Content Include="Content\Animation\HeroSheet.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Audio\ImGood.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\Audio\Projectile\ArrowFire.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -710,6 +841,9 @@
     <Content Include="Content\Sprite\Spider.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Trap\Door.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Trap\electric.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -719,13 +853,16 @@
     <Content Include="Content\Trap\JumpTrap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Trap\redtile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Trap\SawBlade.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Trap\Shrink.png">
+    <Content Include="Content\Trap\spine.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Trap\spine.png">
+    <Content Include="Content\Trap\spinetile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Trap\static_spine.png">
@@ -741,6 +878,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\ArrowRight.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\Filled X.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\Icons\Blink.xnb">

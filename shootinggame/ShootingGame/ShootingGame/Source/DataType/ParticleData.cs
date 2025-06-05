@@ -32,7 +32,7 @@ namespace ShootingGame
         public ParticleData(Texture2D texture, float lifespan, Color colorstart, Color colorend, float opacitystart,float opacityend,
             float sizestart, float sizeend, float speed, float angle = 0f)
         {
-            this.Texture = texture == null ? Game1.defaultParticle : null;
+            this.Texture = texture == null ? Game1.defaultParticle : texture;
             this.lifespan = lifespan == 0 ? 2f : lifespan ;
             this.colorstart = colorstart; 
             this.colorEnd = colorend;

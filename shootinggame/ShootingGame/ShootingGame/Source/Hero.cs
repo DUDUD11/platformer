@@ -23,12 +23,12 @@ namespace ShootingGame
 
         public static float trail_lifespan = 1f;
         public static float trail_gentime = 0.15f;
-        public static float Speed = 500f;
+        public static float Speed = 500 * 75f;
         public static Vector2 Hero_Frames = new Vector2(11, 1);
         public static int Hero_animation_num = 7;
         public static float DoubleJumpIntime = 3f;
         public static float DashStartTime;
-        public static float WallJumpCooldown =0.5f;
+        public static float WallJumpCooldown =0.1f;
         public static float Hero_Throb_Time = 1.2f;
         public static float Hero_Dead_EffectTime = 0.25f;
         public static float WallJumpPortion = 0.8f;
@@ -37,6 +37,7 @@ namespace ShootingGame
 
         public float health, maxHealth;
         public double JumpLastTime = float.MinValue;
+        public double ActivatedWallJump = float.MinValue;
         public double WallJumpLastTime = float.MinValue;
         public List<Skill> skillList = new List<Skill>();
 
@@ -61,7 +62,8 @@ namespace ShootingGame
             bottomed,
             wallContact,
             MovingPlatform,
-            aerial
+            aerial,
+           
         
         }
 
@@ -191,6 +193,9 @@ namespace ShootingGame
             flatBody.Reset(Revive_Pos.X,Revive_Pos.Y);
             this.pos = Revive_Pos;
 
+            FlatUtil.ResetGameSpeed();
+
+
             game.Camera_Reset();
 
         }
@@ -262,8 +267,15 @@ namespace ShootingGame
         public void WallReach()
         {
             status = Hero_Status.wallContact;
-
+            ActivatedWallJump = Game1.WorldTimer.Elapsed.TotalSeconds;
         }
+
+        public bool Can_WallJump()
+        {
+            return ActivatedWallJump + 0.2f > Game1.WorldTimer.Elapsed.TotalSeconds;
+        }
+
+
 
         public void Get_Hit(float damage)
         {
@@ -360,7 +372,7 @@ namespace ShootingGame
 
             else
             {
-                if (falling(tmpY,pos.Y))
+                if (falling(tmpY,pos.Y) )
                 {
                  //   status = Hero_Status.aerial;
                     ChangeCurrentAnimation(3);

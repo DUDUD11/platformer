@@ -21,3 +21,15 @@ C:\Users\kim42\source\repos\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug
 C:\Users\kim42\source\repos\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\refint\FlatPhysics.dll
 C:\Users\kim42\source\repos\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.pdb
 C:\Users\kim42\source\repos\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\ref\FlatPhysics.dll
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\bin\Debug\net6.0\FlatPhysics.deps.json
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\bin\Debug\net6.0\FlatPhysics.dll
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\bin\Debug\net6.0\FlatPhysics.pdb
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.GeneratedMSBuildEditorConfig.editorconfig
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.AssemblyInfoInputs.cache
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.AssemblyInfo.cs
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.csproj.CoreCompileInputs.cache
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.sourcelink.json
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.dll
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\refint\FlatPhysics.dll
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\FlatPhysics.pdb
+E:\clone\DUDUD11\platformer\FlatPhysics\FlatPhysics\obj\Debug\net6.0\ref\FlatPhysics.dll

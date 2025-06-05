@@ -82,7 +82,7 @@ namespace ShootingGame
             {
                 FlatBody tmp = SpecialTileFlatBody[i];
 
-                if (hero.FlatBody.LinearVelocity.Y > 0)
+                if (hero.FlatBody.LinearVelocity.Y > 0 || hero.FlatBody.Position.Y < tmp.Position.Y - tmp.height/2)
                 {
                     tmp.active = false;
                     // 사실 heroactive 하면 좋을듯 아니면 특정 world type에만
@@ -174,12 +174,21 @@ namespace ShootingGame
         }
 
    
-        public static bool FlatBodyIsBottom(FlatBody flatBody, SpriteEntity spriteEntity)
+        public static bool FlatBodyIsBottom(FlatBody flatBody, Hero spriteEntity)
         {
-    
+            // 전상태가 bottom이였으면 미끄러지는것으로 생각한다 - 점프가 가능하게
+           
+            if (spriteEntity.status != Hero.Hero_Status.bottomed &&  1f + spriteEntity.pos.X > flatBody.GetAABB().Max.X
+                || spriteEntity.pos.X - 1f < flatBody.GetAABB().Min.X
+                )
+            {
+                return false;
+            }
 
-            if ((flatBody.Position.Y + flatBody.height / 2 > 1f + spriteEntity.pos.Y - FlatAABB.HitBoxSize * spriteEntity.dims.Y / 2)) return false;
-
+            if ((flatBody.Position.Y + flatBody.height / 2 > 1f + spriteEntity.pos.Y - FlatAABB.HitBoxSize * spriteEntity.dims.Y / 2))
+            {
+                return false;
+            }
             if (flatBody.isHorizontalTile) return true;
 
             if (flatBody.isVerticalTile)

@@ -14,6 +14,7 @@ namespace ShootingGame
     public enum PE_Set
     { 
         Pouring_Circle,
+        SnowFlake
     }
 
 
@@ -23,14 +24,17 @@ namespace ShootingGame
         public bool Destroy = false;
         private float Left; 
         private float intervalLeft;
-        private readonly Vector2 Pos;
+        public Vector2 Pos;
+        private readonly Vector2 PosVar;
         private bool moveable;
+      
         private Game1 game;
 
-        public ParticleEmitter(Game1 game, Vector2 pos, ParticleEmitterData data, bool moveable, float left = float.MaxValue)
+        public ParticleEmitter(Game1 game, Vector2 pos, Vector2 posVar,ParticleEmitterData data, bool moveable, float left = float.MaxValue)
         {
             this.game = game;
             this.Pos = pos;
+            this.PosVar = posVar;
             this.data = data;
             this.intervalLeft = data.interval;
             this.moveable = moveable;
@@ -46,9 +50,14 @@ namespace ShootingGame
             float lifespan = RandomHelper.RandomSingle(data.lifespanMin, data.lifespanMax);
             float speed = RandomHelper.RandomSingle(data.speedMin, data.speedMax);
             float r = RandomHelper.RandomSingle() * 2 - 1;
+            float posVar_X = (RandomHelper.RandomSingle() * 2 - 1) * PosVar.X;
+            float posVar_Y = (RandomHelper.RandomSingle() * 2 - 1) * PosVar.Y;
+
+            Vector2 _pos = pos + new Vector2(posVar_X + posVar_Y);
+
             float angle = d.angle + data.angleVar * r;
 
-            Particle p = new Particle(pos, d,lifespan,speed, angle);
+            Particle p = new Particle(_pos, d,lifespan,speed, angle);
             game.Add_Particle(p);
         }
 

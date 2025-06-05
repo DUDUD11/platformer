@@ -23,3 +23,16 @@ C:\Users\kim42\source\repos\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.d
 C:\Users\kim42\source\repos\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\refint\Flat.dll
 C:\Users\kim42\source\repos\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.pdb
 C:\Users\kim42\source\repos\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\ref\Flat.dll
+E:\clone\DUDUD11\platformer\Flat\Flat\bin\Debug\net6.0\Flat.deps.json
+E:\clone\DUDUD11\platformer\Flat\Flat\bin\Debug\net6.0\Flat.dll
+E:\clone\DUDUD11\platformer\Flat\Flat\bin\Debug\net6.0\Flat.pdb
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.csproj.AssemblyReference.cache
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.GeneratedMSBuildEditorConfig.editorconfig
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.AssemblyInfoInputs.cache
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.AssemblyInfo.cs
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.csproj.CoreCompileInputs.cache
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.sourcelink.json
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.dll
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\refint\Flat.dll
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\Flat.pdb
+E:\clone\DUDUD11\platformer\Flat\Flat\obj\Debug\net6.0\ref\Flat.dll

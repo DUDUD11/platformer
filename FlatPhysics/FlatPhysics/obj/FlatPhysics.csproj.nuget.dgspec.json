@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj": {}
+    "E:\\clone\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj": {
+    "E:\\clone\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+        "projectUniqueName": "E:\\clone\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
         "projectName": "FlatPhysics",
-        "projectPath": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
+        "projectPath": "E:\\clone\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\FlatPhysics.csproj",
         "packagesPath": "C:\\Users\\kim42\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kim42\\source\\repos\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\obj\\",
+        "outputPath": "E:\\clone\\DUDUD11\\platformer\\FlatPhysics\\FlatPhysics\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -79,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

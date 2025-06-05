@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.VisualBasic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -77,15 +78,50 @@ namespace ShootingGame
         distile = 5,
         SpineMovingPlatform = 6,
         fallingTile = 7,
+        redtile=8,
+        spinetile=9,
+        Door=10,
+
 
 
     }
 
     public enum D2_Env
     { 
+        // Interactable Sprite Object
         star =1,
         diamond=2,
+        CheckPoint=3,
+        BluePoint=4,
+        // To here, Decoraction Object
+        Box=5,
+        Box2=6,
+        Box3=7,
+        downsign=8,
+        leftsign=9,
+        rightsign=10,
+        upsign=11,
+        ramp=12,
+        Snow=13,
+        SnowDeco=14,
+        SnowDeco2=15,
+        SnowDeco3=16,
+        Spear=17,
+        Spear2=18,
+        Stone3=19,
+        Stone2=20,
+        Stone=21,
+        Tent=22,
+        Tent2=23,
+        Tree=24,
+        Tree2=25,
+        Tree3=26,
+        Tree4=27,
+        Tree5=28,
+        Tree6=29,
     }
+
+   
 
     public class Map
     {
@@ -103,6 +139,8 @@ namespace ShootingGame
         public string RightMap;
         public string DownMap;
         public string UpMap;
+
+        public string name;
 
 
         public void Set_MapSize(int width , int height)
@@ -225,12 +263,28 @@ namespace ShootingGame
                     break;
 
                 case 5:
-                    switch (pos.Item2)
+
+                    if (pos.Item2 <= 4)
                     {
-                        case 1:
-                            return Star.star_path;
-                        case 2:
-                            return Diamond.Diamond_path;
+                        switch (pos.Item2)
+                        {
+                            case 1:
+                                return Star.star_path;
+                            case 2:
+                                return Diamond.Diamond_path;
+                            case 3:
+                                return CheckPoint.CheckPoint_path;
+                            case 4:
+                                return BluePoint.BluePoint_path;
+                        }
+                    }
+                    else
+                    {
+
+                        D2_Env env = (D2_Env)pos.Item2;
+ 
+                        string envName = Enum.GetName(typeof(D2_Env), env);
+                        return "Deco\\" + envName;
                     }
 
                     break;

@@ -34,22 +34,22 @@ namespace ShootingGame
 
         }
 
-        public override void SpawnMob()
-        {
+        //public override void SpawnMob()
+        //{
           
-            if (CurSpawn < MaxSpawn)
-            {
-                Spiderling spiderling = new Spiderling(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
-                game.AddSpriteWithBody(spiderling, spiderling.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
-            }
+        //    if (CurSpawn < MaxSpawn)
+        //    {
+        //        Spiderling spiderling = new Spiderling(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
+        //        game.AddSpriteWithBody(spiderling, spiderling.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
+        //    }
 
-            CurSpawn++;
+        //    CurSpawn++;
 
-            if(CurSpawn>=MaxSpawn)
-            { 
-                Destroy = true;
-            }
-        }
+        //    if(CurSpawn>=MaxSpawn)
+        //    { 
+        //        Destroy = true;
+        //    }
+        //}
 
 
 

@@ -17,6 +17,7 @@ using ShootingGame.Source.Buildings;
 using System.Runtime.CompilerServices;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using ShootingGame;
+using Microsoft.VisualBasic;
 
 
 
@@ -27,7 +28,9 @@ namespace ShootingGame
     { 
         Normal,
         GameOver,
-        Dialog
+        Dialog,
+        Cinematic_WalkAway,
+        Cinematic_Boss,
     }
 
     public class Game1 : Game
@@ -69,6 +72,7 @@ namespace ShootingGame
         private Hero hero;
 
         private static float left, right, bottom, top;
+        private bool CinamaFlag = false;
 
         public static Stopwatch WorldTimer = new Stopwatch();
         public static GameTime WorldGameTime;
@@ -90,6 +94,7 @@ namespace ShootingGame
         public static GamePlay_status gamePlay_Status = GamePlay_status.Normal;
 
         public static Texture2D defaultParticle;
+        private ParticleEmitter snow_pE;
 
 
 
@@ -273,7 +278,7 @@ namespace ShootingGame
             offset = new Vector2(0f, 0f);
             //   float padding = MathF.Abs(right - left) * 0.10f;
 
-
+          
 
             mainMenu = new MainMenu(this, new Button(this, false, MainMenu.StartButton_Pos, Button.Default_Buttonsz, Text.default_font, "Start", StartButtonClicked, false),
                new Button(this, false, MainMenu.ExitButton_Pos, Button.Default_Buttonsz, Text.default_font, "Exit", ExitButtonClicked, false));
@@ -292,20 +297,25 @@ namespace ShootingGame
             defaultParticle = Content.Load<Texture2D>("Particle\\particle");
 
 
-            ParticleData pD = new ParticleData(null, 0f, Color.Yellow, Color.Blue, 1f, 0f, 20, 10, 50, 0);
+            //ParticleData pD = new ParticleData(null, 0f, Color.Yellow, Color.Blue, 1f, 0f, 20, 10, 50, 0);
             //  ParticleList.Add(new Particle(adjustmousePos, new ParticleData(null,0f,Color.Yellow,Color.Blue,1f,0f,20,10,50,0)));
 
             //   ParticleEmitterData pED = new ParticleEmitterData(pD, 0f, 180f, 0.5f, 2.0f, 10f, 100f, 0.01f, 10);
             //     ParticleEmitter pE = new ParticleEmitter(this, adjustmousePos, pED,true);
             //    Add_ParticleEmitter(pE);
 
-            ParticleEmitterData static_pED = new ParticleEmitterData(pD, 0f, MathHelper.Pi / 4, 0.5f, 2.0f, 10f, 100f, 0.01f, 10);
-            ParticleEmitter static_pE = new ParticleEmitter(this, new Vector2(500, 500), static_pED, false);
+            //ParticleEmitterData static_pED = new ParticleEmitterData(pD, 0f, MathHelper.Pi / 4, 0.5f, 2.0f, 10f, 100f, 0.01f, 10);
+            //ParticleEmitter static_pE = new ParticleEmitter(this, new Vector2(500, 500), static_pED, false);
 
-            Add_ParticleEmitter(static_pE);
+            //Add_ParticleEmitter(static_pE);
 
 
 
+            ParticleData snow = new ParticleData(Content.Load<Texture2D>("Particle\\particle"), 2f, Color.White, Color.White, 0.8f, 1.2f, 20f, 20f, 0f,MathHelper.Pi*1.5f);
+            ParticleEmitterData snow_pED = new ParticleEmitterData(snow, 0, MathHelper.PiOver4/4, 10f, 15f, screen_width*0.5f, screen_width*1.5f, 0.2f, 5);
+            snow_pE = new ParticleEmitter(this, new Vector2(screen_width,screen_height/2),new Vector2(0,screen_height/2), snow_pED, false);
+
+            Add_ParticleEmitter(snow_pE);
 
             base.Initialize();
         }
@@ -395,8 +405,8 @@ namespace ShootingGame
 
             //#endregion Trap
             
-            mapDeployment.Load_FirstMap(1, 13,hero);
-            //14부터고치셈
+            mapDeployment.Load_FirstMap(1, 3,hero);
+           
 
             SoundControl.BkgMusicChange(this, "ImGood", "Audio\\ImGood", 0.05f);
             SoundControl.SoundAdd(new SoundItem(this, "FireSound", "Audio\\Projectile\\FireSound", 1f));
@@ -422,16 +432,13 @@ namespace ShootingGame
                     150
                     );
 
-                    ParticleEmitter Release_Circle = new ParticleEmitter(this, pos, ped, false, Hero.Respawn_Time);
+                    ParticleEmitter Release_Circle = new ParticleEmitter(this, pos, Vector2.Zero,ped, false, Hero.Respawn_Time);
                     this.Add_ParticleEmitter(Release_Circle);
                     break;
+
             }
 
-
-
-
         }
-
 
         public void Add_UIEntityMessage(Message message)
         {
@@ -470,6 +477,7 @@ namespace ShootingGame
             if (hero.Destroy)
             {
                 gamePlay_Status = GamePlay_status.GameOver;
+
                 return;
             }
 
@@ -504,8 +512,28 @@ namespace ShootingGame
             dialogQueue.Dequeue();
             if (dialogQueue.Count == 0)
             {
-                gamePlay_Status = GamePlay_status.Normal;
+                if (CinamaFlag) gamePlay_Status = GamePlay_status.Cinematic_WalkAway;
+                else
+                {
+                    gamePlay_Status = GamePlay_status.Normal;
+                }
             }
+
+         
+        }
+
+     
+        public void Dialog_Add(string str,string picture)
+        {
+
+
+            dialogQueue.Enqueue(new Dialog(this, true, new Point((int)(screen_width / 4), screen_height / 6), new Vector2(screen_width / 2, screen_height / 5), str, picture));
+        }
+
+        public void Dialog_Mode(bool flag)
+        {
+            gamePlay_Status = GamePlay_status.Dialog;
+            CinamaFlag = flag;
         }
 
         //public void RetryButtonClicked()
@@ -537,9 +565,11 @@ namespace ShootingGame
 
         protected override void Update(GameTime gameTime)
         {
+            // animation 등 속도를 모두 바꾸려면 timer클래스 만들어서 거기서 totalsecond등을 계산하게해야함 아마 flatutil 내부클래스로 만들듯
+            WorldGameTime = gameTime;
+
             FlatKeyboard keyboard = FlatKeyboard.Instance;
             FlatMouse mouse = FlatMouse.Instance;
-            WorldGameTime = gameTime;
 
             keyboard.Update();
             mouse.Update();
@@ -643,6 +673,9 @@ namespace ShootingGame
 
                 #region Particle Update
 
+                snow_pE.Pos = new Vector2(screen_width, screen.Height / 2) + offset;
+
+
                 for (int i = 0; i < ParticleList.Count; i++)
                 {
                     ParticleList[i].Update();
@@ -659,7 +692,7 @@ namespace ShootingGame
 
                 #endregion
 
-
+               
                 if (keyboard.IsKeyClicked(Keys.O) && !exitMenu.active)
                 {
                     HeroMenu.active = true;
@@ -680,8 +713,6 @@ namespace ShootingGame
 
                     dialogQueue.Peek().Update(adjustmousePos);
 
-
-
                     if (keyboard.IsKeyClicked(Keys.Enter))
                     {
                         Dialog_Close();
@@ -690,6 +721,221 @@ namespace ShootingGame
                     return;
 
                 }
+
+
+                if (gamePlay_Status == GamePlay_status.Cinematic_WalkAway)
+                {
+                    //좌우반전 Shader을 위한 변수
+                    hero.Left = false;
+
+
+                    FlatVector forecdirection = FlatPhysics.FlatMath.Normalize(new FlatVector(1f, 1f));
+                    FlatVector force = new FlatVector(Hero.Speed* forecdirection.X, - Hero.Speed * forecdirection.Y * 1f);
+
+                    if(hero.status==Hero.Hero_Status.bottomed)
+                    hero.FlatBody.AddForce(force * FlatUtil.GetElapsedTimeInSeconds(gameTime));
+
+                    this.world.Step(FlatUtil.GetElapsedTimeInSeconds(gameTime), 20);
+                    Vector2 tmp_mousepos = new Vector2(screen_width * 0.5f + mouseWorldPosition.X - offset.X, screen_height * 0.5f + mouseWorldPosition.Y - offset.Y);
+
+
+
+                    hero.Update(null, tmp_mousepos);
+
+                    {
+                        camera.MoveTo(new Vector2(hero.pos.X/2,0f));
+                        offset = new Vector2(hero.pos.X / 2, 0f);
+                    }
+
+                    //hero 만 업데이트
+                    // 타일 충돌처리는 필요함
+
+                    TileMap.Update(hero);
+
+                   
+
+                    foreach (var tuple in world.CollideTile)
+                    {
+                        // 타일과 trap등의 처리도 필요함
+
+
+
+                        if (spriteMap.TryGetValue(tuple.Item1, out SpriteEntity a) && a is Hero _ah)
+                        {
+                            if (_ah.status == Hero.Hero_Status.MovingPlatform)
+                            {
+                                hero.Get_Hit(-1);
+                            }
+
+
+                            if (TileMap.FlatBodyIsBottom(tuple.Item2, _ah))
+                            {
+                                _ah.bottomReach();
+                            }
+
+                            else if (TileMap.FlatBodyIsSideWall(tuple.Item2, _ah))
+                            {
+                                _ah.WallReach();
+
+                            }
+
+                            TileMap.Interact(tuple.Item2, _ah);
+
+                        }
+
+                        else if (spriteMap.TryGetValue(tuple.Item2, out SpriteEntity b) && b is Hero _bh)
+                        {
+
+                            if (_bh.status == Hero.Hero_Status.MovingPlatform)
+                            {
+                                hero.Get_Hit(-1);
+                            }
+
+                            if (TileMap.FlatBodyIsBottom(tuple.Item1, _bh))
+                            {
+                                _bh.bottomReach();
+                            }
+
+                            else if (TileMap.FlatBodyIsSideWall(tuple.Item1, _bh))
+                            {
+                                _bh.WallReach();
+                            }
+
+
+                            TileMap.Interact(tuple.Item1, _bh);
+                        }
+
+
+
+                    }
+
+
+
+
+                    base.Update(gameTime);
+                  
+
+                  
+
+                    return;
+
+                }
+
+
+
+                if (gamePlay_Status == GamePlay_status.Cinematic_Boss)
+                {
+
+                    Rino boss = null;
+
+                    for (int i = 0; i < spriteList.Count; i++)
+                    {
+                        if (spriteList[i] is Rino rino)
+                        {
+                            boss = rino;
+                            break;
+                        }
+                    }
+
+                    //좌우반전 Shader을 위한 변수
+                    hero.Left = false;
+                   
+                    this.world.Step(FlatUtil.GetElapsedTimeInSeconds(gameTime), 20);
+                    Vector2 tmp_mousepos = new Vector2(screen_width * 0.5f + mouseWorldPosition.X - offset.X, screen_height * 0.5f + mouseWorldPosition.Y - offset.Y);
+
+                    hero.Update(null, tmp_mousepos);
+                    boss.Update(hero);
+
+                    //hero 만 업데이트
+                    // 타일 충돌처리는 필요함
+
+                    TileMap.Update(hero);
+
+                    foreach (var tuple in world.CollideTile)
+                    {
+                        // 타일과 trap등의 처리도 필요함
+
+
+
+                        if (spriteMap.TryGetValue(tuple.Item1, out SpriteEntity a) && a is Hero _ah)
+                        {
+                            if (_ah.status == Hero.Hero_Status.MovingPlatform)
+                            {
+                                hero.Get_Hit(-1);
+                            }
+
+
+                            if (TileMap.FlatBodyIsBottom(tuple.Item2, _ah))
+                            {
+                                _ah.bottomReach();
+                            }
+
+                            else if (TileMap.FlatBodyIsSideWall(tuple.Item2, _ah))
+                            {
+                                _ah.WallReach();
+
+                            }
+
+                            TileMap.Interact(tuple.Item2, _ah);
+
+                        }
+
+                        else if (spriteMap.TryGetValue(tuple.Item2, out SpriteEntity b) && b is Hero _bh)
+                        {
+
+                            if (_bh.status == Hero.Hero_Status.MovingPlatform)
+                            {
+                                hero.Get_Hit(-1);
+                            }
+
+                            if (TileMap.FlatBodyIsBottom(tuple.Item1, _bh))
+                            {
+                                _bh.bottomReach();
+                            }
+
+                            else if (TileMap.FlatBodyIsSideWall(tuple.Item1, _bh))
+                            {
+                                _bh.WallReach();
+                            }
+
+
+                            TileMap.Interact(tuple.Item1, _bh);
+                        }
+                    }
+
+                    if (dialogQueue.Count != 0)
+                    {
+                        dialogQueue.Peek().Update(adjustmousePos);
+
+                        if (keyboard.IsKeyClicked(Keys.Enter))
+                        {
+                            Dialog_Close();
+                     
+                        }
+
+                        if (dialogQueue.Count == 0)
+                        {
+                            boss.Phase2();
+                        }
+
+
+                    }
+
+                  
+
+                    base.Update(gameTime);
+
+
+
+
+                    return;
+
+                }
+
+
+
+
+
 
                 if (GameOver())
                 {
@@ -739,6 +985,13 @@ namespace ShootingGame
                         // normal로 돌아가도 좋은가
 
                         gamePlay_Status = GamePlay_status.Normal;
+
+                        ClearAllBody();
+                        AddSpriteWithBody(hero, hero.FlatBody, FlatWorld.Wolrd_layer.Hero_allias);
+
+
+                        mapDeployment.Revive_Map();
+
 
                     }
                     base.Update(gameTime);
@@ -802,7 +1055,7 @@ namespace ShootingGame
 
                         float dx = 0f;
                         float dy = 0f;
-                        float forceMagnitude = Hero.Speed * 75f;
+                        float forceMagnitude = Hero.Speed;
 
                         if (keyboard.IsKeyDown(Keys.Left) || keyboard.IsKeyDown(KeyBindControl.getKeyByName("Left")))
                         {
@@ -943,7 +1196,7 @@ namespace ShootingGame
                         spriteEntity.Update(mobs, tmp_mousepos);
                     }
 
-                    else if (spriteEntity is Mob || spriteEntity is Star || spriteEntity is Diamond)
+                    else if (spriteEntity is Mob || spriteEntity is Star || spriteEntity is Diamond || spriteEntity is CheckPoint || spriteEntity is BluePoint)
                     {
                         spriteEntity.Update(hero);
                     }
@@ -962,60 +1215,80 @@ namespace ShootingGame
 
                 TileMap.Update(hero);
 
-                foreach (var tuple in world.CollideTile)
                 {
-                    // 타일과 trap등의 처리도 필요함
 
-                    
 
-                    if (spriteMap.TryGetValue(tuple.Item1, out SpriteEntity a) && a is Hero _ah)
+                    bool hero_aerial = true;
+
+                    foreach (var tuple in world.CollideTile)
                     {
-                        if (_ah.status == Hero.Hero_Status.MovingPlatform)
+                        // 타일과 trap등의 처리도 필요함
+
+
+
+                        if (spriteMap.TryGetValue(tuple.Item1, out SpriteEntity a) && a is Hero _ah)
                         {
-                            hero.Get_Hit(9999);
+                            if (_ah.status == Hero.Hero_Status.MovingPlatform)
+                            {
+                                hero.Get_Hit(-1);
+                            }
+
+
+                            if (TileMap.FlatBodyIsBottom(tuple.Item2, _ah))
+                            {
+                                _ah.bottomReach();
+                                hero_aerial = false;
+                            }
+
+                            else if (TileMap.FlatBodyIsSideWall(tuple.Item2, _ah))
+                            {
+                                _ah.WallReach();
+                                hero_aerial = false;
+
+                            }
+
+                            TileMap.Interact(tuple.Item2, _ah);
+
+                        }
+
+                        else if (spriteMap.TryGetValue(tuple.Item2, out SpriteEntity b) && b is Hero _bh)
+                        {
+
+                            if (_bh.status == Hero.Hero_Status.MovingPlatform)
+                            {
+                                hero.Get_Hit(-1);
+                            }
+
+                            if (TileMap.FlatBodyIsBottom(tuple.Item1, _bh))
+                            {
+                                _bh.bottomReach();
+                                hero_aerial = false;
+                            }
+
+                            else if (TileMap.FlatBodyIsSideWall(tuple.Item1, _bh))
+                            {
+                                _bh.WallReach();
+                                hero_aerial = false;
+                            }
+
+
+                            TileMap.Interact(tuple.Item1, _bh);
                         }
 
 
-                        if (TileMap.FlatBodyIsBottom(tuple.Item2, _ah))
-                        {
-                            _ah.bottomReach();
-                        }
-
-                        else if (TileMap.FlatBodyIsSideWall(tuple.Item2, _ah))
-                        {
-                            _ah.WallReach();
-                            
-                        }
-
-                        TileMap.Interact(tuple.Item2, _ah);
 
                     }
 
-                    else if (spriteMap.TryGetValue(tuple.Item2, out SpriteEntity b) && b is Hero _bh)
+                    if (hero.status != Hero.Hero_Status.MovingPlatform && hero_aerial && !hero.Can_WallJump())
                     {
+                        
 
-                        if (_bh.status == Hero.Hero_Status.MovingPlatform)
-                        {
-                            hero.Get_Hit(9999);
-                        }
+                        hero.status = Hero.Hero_Status.aerial;
 
-                        if (TileMap.FlatBodyIsBottom(tuple.Item1, _bh))
-                        {
-                            _bh.bottomReach();
-                        }
-
-                        else if (TileMap.FlatBodyIsSideWall(tuple.Item1, _bh))
-                        {
-                            _bh.WallReach();
-                        }
-
-
-                        TileMap.Interact(tuple.Item1, _bh);
                     }
-
-                    
 
                 }
+
 
 
                 foreach (var tuple in world.CollideTuple)
@@ -1053,8 +1326,8 @@ namespace ShootingGame
                         {
                             if (b is Hero)
                             {
-                                MobA.AttackPlayer(MobA.Atkdamage, hero);
-                                MobA.Destroy_Sprite();
+                                MobA.Interact(hero);
+                               
                             }
 
                             else if (b is Building buildingb)
@@ -1071,8 +1344,8 @@ namespace ShootingGame
 
                             if (a is Hero)
                             {
-                                MobB.AttackPlayer(MobB.Atkdamage, hero);
-                                MobB.Destroy_Sprite();
+                                MobB.Interact(hero);
+
                             }
 
                             else if (a is Building buildinga)
@@ -1162,7 +1435,8 @@ namespace ShootingGame
                     }
                     else
                     {
-                        spriteList.Remove(spriteEntity);
+                        RemoveSpriteWithoutBody(spriteEntity);
+                      
                     }
                 }
 
@@ -1260,6 +1534,7 @@ namespace ShootingGame
 
                         mapDeployment.Load_Map(next_map,hero);
                         this.Camera_Reset();
+
                     }
                     else
                     {
@@ -1268,6 +1543,14 @@ namespace ShootingGame
                         hero.Get_Hit(-1);
                     }
                 }
+                // WALKAWAY 판별하는곳
+                if (gamePlay_Status == GamePlay_status.Cinematic_WalkAway)
+                {
+                    CinamaFlag = false;
+                    gamePlay_Status = GamePlay_status.Normal;
+                }
+
+
             }
 
         }
@@ -1358,16 +1641,39 @@ namespace ShootingGame
             spriteMap.Add(flatBody,spriteEntity);
         }
 
+        public void DeleteFlatBody(SpriteEntity spriteEntity, FlatBody PrevflatBody,FlatWorld.Wolrd_layer wolrd_Type)
+        {
+            world.RemoveBody(PrevflatBody, wolrd_Type);
+            spriteMap.Remove(PrevflatBody);
+
+    
+        }
+
+        public void AddFlatBody(SpriteEntity spriteEntity, FlatBody ChangeBody, FlatWorld.Wolrd_layer wolrd_Type)
+        {
+         
+            world.AddBody(ChangeBody, wolrd_Type);
+            spriteMap.Add(ChangeBody, spriteEntity);
+
+        }
+
+
+
         public void AddBody(FlatBody flatBody, FlatWorld.Wolrd_layer wolrd_Type)
         {
             world.AddBody(flatBody, wolrd_Type);
         }
 
 
-        //public void AddSpriteList(SpriteEntity spriteEntity)
-        //{
-        //    spriteList.Add(spriteEntity);
-        //}
+        public void AddSpriteList(SpriteEntity spriteEntity)
+        {
+            spriteList.Add(spriteEntity);
+        }
+        public void RemoveSpriteWithoutBody(SpriteEntity spriteEntity)
+        {
+            spriteList.Remove(spriteEntity);
+        }
+
 
 
         public void RemoveSpriteWithBody(SpriteEntity spriteEntity, FlatBody flatBody)
@@ -1390,11 +1696,6 @@ namespace ShootingGame
             TileMap.Clear();
         
         }
-
-
-       
-
-
         
         protected override void Draw(GameTime gameTime)
         {
@@ -1484,7 +1785,7 @@ namespace ShootingGame
             else
             {
                 MoveScreen();
-
+         
                 sprites.Begin(spriteSort: SpriteSortMode.BackToFront);
 
                 foreach (Layer layer in BGLayer)
@@ -1502,10 +1803,10 @@ namespace ShootingGame
 
                 Vector2 mouseWorldPosition = FlatMouse.Instance.GetMouseWorldPosition(this, this.screen, this.camera);
 
-                foreach (SpriteEntity spriteEntity in spriteList)
+                //Hero가 가장 늦게 그려지게 하기위해
+                for (int i = spriteList.Count - 1; i >= 0; i--)
                 {
-                    spriteEntity.Draw(sprites, -offset);
-
+                    spriteList[i].Draw(sprites, -offset);
                 }
 
                 for (int i = 0; i < uIEntityList.Count; i++)
@@ -1562,7 +1863,7 @@ namespace ShootingGame
 
                     if (spriteEntity is not Fireball )
                     {
-                        if (spriteEntity is not FallingTile)
+                        if (spriteEntity is not FallingTile || spriteEntity is not RedTile || spriteEntity is not SpineTile)
                         shapes.DrawBox(adjustPos, spriteEntity.dims.X, spriteEntity.dims.Y, Color.White);
                     }
                     else

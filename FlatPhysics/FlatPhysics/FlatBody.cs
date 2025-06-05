@@ -41,6 +41,7 @@ namespace FlatPhysics
         public bool isTile = false;
         public bool isHorizontalTile = false;
         public bool isVerticalTile = false;
+        public bool OnlyHero = false;
 
 
         public bool active = true;
@@ -290,7 +291,10 @@ namespace FlatPhysics
             }
             time /= (float)iterations;
 
-            this.linearVelocity += gravity * time;
+            if (!OnlyHero)
+            {
+                this.linearVelocity += gravity * time;
+            }
             position += this.linearVelocity * time;
             angle += this.angularVelocity * time;
 

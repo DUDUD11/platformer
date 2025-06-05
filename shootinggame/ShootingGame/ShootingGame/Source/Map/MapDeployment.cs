@@ -1,5 +1,6 @@
 ﻿using FlatPhysics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ShootingGame;
 
 using System;
@@ -23,6 +24,7 @@ namespace ShootingGame
         public bool Map_Changed;
         private Vector2 Map_Sz;
         private Hero hero;
+        private string _mapstr;
        
       
 
@@ -49,7 +51,7 @@ namespace ShootingGame
         public string NextMap(int dir)
         {
             if (dir < 0 || dir > 3) throw new Exception("Invalid NextMap setting");
-            string _map = map.NextMap(dir);
+            _mapstr = map.NextMap(dir);
 
             if (dir == 1 || dir == 2)
             {
@@ -61,19 +63,20 @@ namespace ShootingGame
                 Offset = new Vector2(Int32.MinValue, -1);
             }
 
-                return _map;
+                return _mapstr;
         }
         public bool Load_FirstMap(int stage, int substage,Hero hero)
         {
-            string tmp = "Map" + stage + "-" + substage;
+            _mapstr = "Map" + stage + "-" + substage;
 
-            map = Game1.save.LoadMapData(tmp);
+            map = Game1.save.LoadMapData(_mapstr);
+            map.name = _mapstr;
             Map_Changed = true;
 
             this.hero = hero;
 
             Offset = new Vector2(map.Offset.Item1, map.Offset.Item2);
-
+           
             return true;
         }
 
@@ -81,17 +84,24 @@ namespace ShootingGame
         {
            
             map = Game1.save.LoadMapData(tmp);
+            map.name = _mapstr;
             Map_Changed = true;
 
             if (Offset.X < -10000000)
             {
                 Offset = new Vector2(-map.Offset.Item1, -map.Offset.Item2) ;
             }
-            
-        
+     
+
+
             return true;
         }
 
+
+
+
+
+        // map changed 이후 실질적으로 stage 변경하는 단계
         public bool Set_Load_Map()
         {
             chk = new bool[map.Map_height, map.Map_width];
@@ -100,15 +110,65 @@ namespace ShootingGame
 
             Parsing_map();
             Hero_Setting(hero);
+
+            SpecialStage();
+
+
             return true;
         }
+
+        public void SpecialStage()
+        {
+
+            int chapter = map.name[3]-'0';
+            string[] parts = map.name.Split('-');
+            int stage = int.Parse(parts[1]);
+
+            switch (chapter)
+            {
+                case 0:
+                    break;
+
+                case 1:
+
+                    if (stage == 21)
+                    {
+                        Rino rino = new Rino(game, new Vector2(15, 1) * TileMap.Tile_Dims, FlatWorld.Wolrd_layer.Mob_allias, 0f); ;
+                        game.AddSpriteWithBody(rino, rino.flatBody, FlatWorld.Wolrd_layer.Mob_allias);
+                    }
+
+                    else if (stage > 21 && stage < 27)
+                    {
+                        Rino rino = new Rino(game, new Vector2(15, 1) * TileMap.Tile_Dims, FlatWorld.Wolrd_layer.Mob_allias, 0f); ;
+                        game.AddSpriteWithBody(rino, rino.flatBody, FlatWorld.Wolrd_layer.Mob_allias);
+                        rino.Phase2();
+                    }
+
+
+                    break;
+
+                default:
+                    throw new Exception("No!!");
+
+            }
+
+
+          
+        }
+
+        public void Revive_Map()
+        {
+            Set_Load_Map();
+        }
+
 
         public void Parsing_map()
         {
             StaticTile_Width();
             StaticTile_Height();
-            Trap_Gen();
-            Env_Gen();
+            Trap_Gen(out Door door);
+            Env_Gen(door);
+           
         }
 
         public void StaticTile_Width()
@@ -207,9 +267,10 @@ namespace ShootingGame
 
         }
 
-        public void Trap_Gen()
+        public void Trap_Gen(out Door doorOut)
         {
 
+            doorOut = null;
 
             for (int i = 0; i < map.Map_height; i++)
             {
@@ -299,13 +360,30 @@ namespace ShootingGame
                                     game.AddSpriteWithBody(fallingTile.SpineList[h], fallingTile.SpineList[h].flatBody, FlatWorld.Wolrd_layer.Static_allias);
                                 }
                                 break;
+                            case 8:
+                               // int[] redtilearr = JsonSerializer.Deserialize<int[]>((JsonElement)map.DeployInfo[i][j]);
 
+                                RedTile redTile = new RedTile(game, init_pos, new Vector2(1, 1));
+                                game.AddSpriteWithBody(redTile, redTile.flatBody, FlatWorld.Wolrd_layer.Static_allias);
+                                break;
+
+                            case 9:
+                                int[] SpineTileformarr = JsonSerializer.Deserialize<int[]>((JsonElement)map.DeployInfo[i][j]);
+
+                                SpineTile spineTile = new SpineTile(game, init_pos, new Vector2(SpineTileformarr[0], SpineTileformarr[1]), Convert.ToInt32(SpineTileformarr[2].ToString(), 2));
+                                game.AddSpriteWithBody(spineTile, spineTile.flatBody, FlatWorld.Wolrd_layer.Static_allias);
+                          
+                                break;
 
                             default:
                                 throw new Exception("Error!");
+                            case 10:
+                                int[] Doorarr = JsonSerializer.Deserialize<int[]>((JsonElement)map.DeployInfo[i][j]);
 
-
-                           
+                                Door door = new Door(game, init_pos,new Vector2(Doorarr[0], Doorarr[1]),Doorarr[2]);
+                                game.AddSpriteWithBody(door, door.flatBody, FlatWorld.Wolrd_layer.Static_allias);
+                                doorOut = door;
+                                break;
 
                         }
                            
@@ -333,7 +411,7 @@ namespace ShootingGame
             return Offset;
         }
 
-        public void Env_Gen()
+        public void Env_Gen(Door door)
         {
             for (int i = 0; i < map.Map_height; i++)
             {
@@ -344,30 +422,53 @@ namespace ShootingGame
                     {
                         chk[i, j] = true;
                         Vector2 init_pos = new Vector2(j * TileMap.Tile_Size + TileMap.Tile_Size / 2, i * TileMap.Tile_Size + TileMap.Tile_Size / 2);
-
-                        switch ((int)map.Deploy[i][j].Item2)
+                        if ((int)map.Deploy[i][j].Item2 < 5)
                         {
+                            switch ((int)map.Deploy[i][j].Item2)
+                            {
+                                case 1:
 
-                            case 1:
+                                    Star star = new Star(game, init_pos);
 
-                                    Star star = new Star(game, init_pos);                             
-                              
-                                    game.AddSpriteWithBody(star,star.flatBody,FlatWorld.Wolrd_layer.Static_allias);
-                        
-                                break;
-                            case 2:
+                                    game.AddSpriteWithBody(star, star.flatBody, FlatWorld.Wolrd_layer.Static_allias);
 
-                                Diamond diamond = new Diamond(game, init_pos);
+                                    break;
+                                case 2:
 
-                                game.AddSpriteWithBody(diamond, diamond.flatBody, FlatWorld.Wolrd_layer.Static_allias);
+                                    Diamond diamond = new Diamond(game, init_pos);
 
-                                break;
+                                    game.AddSpriteWithBody(diamond, diamond.flatBody, FlatWorld.Wolrd_layer.Static_allias);
 
+                                    break;
+                                case 3:
 
+                                    CheckPoint checkPoint = new CheckPoint(game, init_pos);
 
-                            default:
-                                throw new Exception("Error!");
+                                    game.AddSpriteList(checkPoint);
 
+                                    break;
+                                case 4:
+
+                                    BluePoint bluePoint = new BluePoint(game, init_pos);
+
+                                    game.AddSpriteList(bluePoint);
+                                    bluePoint.SetDoor(door);
+                                    break;
+
+                                default:
+                                    throw new Exception("Error!");
+                            }
+                        }
+
+                        else
+                        {
+                            D2_Env env = (D2_Env)map.Deploy[i][j].Item2;
+
+                            string envName = "Deco\\"+ Enum.GetName(typeof(D2_Env), env);
+                            Texture2D texture = game.Content.Load<Texture2D>(envName);
+                            EnvEntity envEntity = new EnvEntity(game,  envName, init_pos, new Vector2(texture.Bounds.Width, texture.Bounds.Height));
+                            game.AddSpriteList(envEntity);
+                       
 
 
 

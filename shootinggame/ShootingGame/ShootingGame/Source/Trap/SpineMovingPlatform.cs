@@ -137,9 +137,6 @@ namespace ShootingGame
                 
 
                 hero.FlatBody.LinearVelocity = new FlatVector(cur_velocity.X, cur_velocity.Y) + new FlatVector(hero.delta_Velocity.X, hero.delta_Velocity.Y);
- 
-                
-
                 return;
             }
 

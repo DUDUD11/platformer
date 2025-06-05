@@ -86,35 +86,35 @@ namespace ShootingGame
             if (curtime - spawnTimer > spawnPeriod)
             { 
                 spawnTimer = curtime;
-                SpawnMob();
+              //  SpawnMob();
 
             }
 
         }
 
-        public virtual void SpawnMob()
-        {
-            if (spawnType == SpawnType.Imp)
-            {
-                Imp imp = new Imp(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
-                game.AddSpriteWithBody(imp, imp.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
-            }
+        //public virtual void SpawnMob()
+        //{
+        //    if (spawnType == SpawnType.Imp)
+        //    {
+        //        Imp imp = new Imp(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
+        //        game.AddSpriteWithBody(imp, imp.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
+        //    }
 
-            else if (spawnType == SpawnType.Spider)
-            {
-                Spider spider = new Spider(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
-                game.AddSpriteWithBody(spider, spider.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
+        //    else if (spawnType == SpawnType.Spider)
+        //    {
+        //        Spider spider = new Spider(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
+        //        game.AddSpriteWithBody(spider, spider.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
 
-            }
+        //    }
 
-            else if (spawnType == SpawnType.AncientImp)
-            {
-                AncientImp ancientImp = new AncientImp(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
-                game.AddSpriteWithBody(ancientImp, ancientImp.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
+        //    else if (spawnType == SpawnType.AncientImp)
+        //    {
+        //        AncientImp ancientImp = new AncientImp(game, pos, FlatWorld.Wolrd_layer.Mob_allias, float.MaxValue);
+        //        game.AddSpriteWithBody(ancientImp, ancientImp.FlatBody, FlatWorld.Wolrd_layer.Mob_allias);
 
-            }
+        //    }
 
-        }
+        //}
 
         public override void Draw(Sprites sprite, Vector2 o)
         {

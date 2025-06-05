@@ -21,6 +21,7 @@ namespace ShootingGame
     // infookbutton
     // trap_gen 등의 gen
     // rightbutton
+ 
 
     public class MapEditor
     {
@@ -145,7 +146,17 @@ namespace ShootingGame
 
                 EnvMapEditor.Add(new Button(game, Star.star_path, true, U(Button_Dims, 4), new Vector2(Button_Dims.X * 4, Button_Dims.Y), Text.default_font, null, EnvButtonClicked, false, 1));
                 EnvMapEditor.Add(new Button(game, Diamond.Diamond_path, true, U(Button_Dims, 4), new Vector2(Button_Dims.X * 4, Button_Dims.Y), Text.default_font, null, EnvButtonClicked, false, 2));
+                EnvMapEditor.Add(new Button(game, CheckPoint.CheckPoint_path, true, U(Button_Dims, 4), new Vector2(Button_Dims.X * 4, Button_Dims.Y), Text.default_font, null, EnvButtonClicked, false, 3));
+                EnvMapEditor.Add(new Button(game, BluePoint.BluePoint_path, true, U(Button_Dims, 4), new Vector2(Button_Dims.X * 4, Button_Dims.Y), Text.default_font, null, EnvButtonClicked, false, 4));
 
+                for (int i = 5; i < Enum.GetValues(typeof(D2_Env)).Length+1; i++)
+                {
+                    D2_Env env = (D2_Env)i;
+                    string envName = Enum.GetName(typeof(D2_Env), env);
+
+                    EnvMapEditor.Add(new Button(game, "Deco\\" + envName, true, U(Button_Dims, 1), Button_Dims, Text.default_font, null, EnvButtonClicked, false, i));
+
+                }
 
             }
 
@@ -310,6 +321,15 @@ namespace ShootingGame
                     case 7:
                         FallingTileRightButton();
                         break;
+                    case 8:
+                        RedTileRightButton();
+                        break;
+                    case 9:
+                        SpineTileRightButton();
+                        break;
+                    case 10:
+                        DoorRightButton();
+                        break;
 
                     default:
                         RbClicked = false;
@@ -353,9 +373,20 @@ namespace ShootingGame
                     case 6:
                         CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
                         break;
-                case 7:
-                    CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
-                    break;
+                    case 7:
+                        CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
+                        break;
+                    case 8:
+                        CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput())};
+                        break;
+
+                    case 9:
+                        CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
+                        break;
+                    case 10:
+                        CurrentMap.DeployInfo[(int)CurDeploy.Y][(int)CurDeploy.X] = new int[] { int.Parse(RbInput[0].GetInput()), int.Parse(RbInput[1].GetInput()), int.Parse(RbInput[2].GetInput()) };
+                        break;
+
 
                 default:
                         break;
@@ -454,6 +485,25 @@ namespace ShootingGame
 
         }
 
+        private void DoorRightButton()
+        {
+            int i = 0;
+            string[] hint_str = { "XPOS", "YPOS", "BluePointNum" };
+
+
+            RightButton_Pos(out bool upper, out bool right);
+
+
+            for (i = 0; i < Door.Addition_variable; i++)
+            {
+                RbInput[i] = new TextInputBox(game, true, hint_str[i], RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y));
+            }
+
+            this.RbOkButton = new Button(game, true, RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "OK", Info_Okbutton, false, ShootingGame.D2_Trap.Door);
+            this.RbCancleButton = new Button(game, true, RUI(upper, right, i + 1) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "Cancel", Info_CancelButton, false);
+
+        }
+
         private void FallingTileRightButton()
         {
             int i = 0;
@@ -472,6 +522,56 @@ namespace ShootingGame
             this.RbCancleButton = new Button(game, true, RUI(upper, right, i + 1) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "Cancel", Info_CancelButton, false);
 
         }
+
+        private void RedTileRightButton()
+        {
+            int i = 0;
+            string[] hint_str = { "XDims", "YDims"};
+
+
+            RightButton_Pos(out bool upper, out bool right);
+
+
+            for (i = 0; i < RedTile.Addition_variable; i++)
+            {
+                RbInput[i] = new TextInputBox(game, true, hint_str[i], RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y));
+            }
+
+            this.RbOkButton = new Button(game, true, RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "OK", Info_Okbutton, false, ShootingGame.D2_Trap.redtile);
+            this.RbCancleButton = new Button(game, true, RUI(upper, right, i + 1) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "Cancel", Info_CancelButton, false);
+
+        }
+
+
+        private void SpineTileRightButton()
+        {
+            int i = 0;
+            string[] hint_str = { "XDims", "YDims", "SpineBit" };
+
+
+            RightButton_Pos(out bool upper, out bool right);
+
+
+            for (i = 0; i < SpineTile.Addition_variable; i++)
+            {
+                RbInput[i] = new TextInputBox(game, true, hint_str[i], RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y));
+            }
+
+            this.RbOkButton = new Button(game, true, RUI(upper, right, i) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "OK", Info_Okbutton, false, ShootingGame.D2_Trap.spinetile);
+            this.RbCancleButton = new Button(game, true, RUI(upper, right, i + 1) - new Vector2(25, 0), new Vector2(Button_Dims.X * 3, Button_Dims.Y), Text.default_font, "Cancel", Info_CancelButton, false);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
         private void SawBladRightButton()
@@ -654,8 +754,23 @@ namespace ShootingGame
                         string t = Map.GetTexture(CurrentMap.Deploy[i][j]);
                         Texture2D texture2D = game.Content.Load<Texture2D>(t);
 
-                        sprite.Draw(texture2D, new Rectangle((int)((j-offset.X) * TileMap.Tile_Size), (int)((i-offset.Y) * TileMap.Tile_Size), (int)TileMap.Tile_Size, (int)TileMap.Tile_Size), Color.White, 0f,
-                        new Vector2(model.Bounds.Width / 2, model.Bounds.Height / 2));
+                        if (CurrentMap.Deploy[i][j].Item1 == (int)D1.Env && CurrentMap.Deploy[i][j].Item2 > (int)D2_Env.BluePoint)
+                        {
+
+                            Vector2 texture_ = new Vector2(texture2D.Bounds.Width, texture2D.Bounds.Height);
+                            Point env_dims = EnvEntity.RoundVec2(texture_).ToPoint();
+                            Point env_Pos = EnvEntity.RoundPosforEditor(texture_, new Vector2((j - offset.X) * TileMap.Tile_Size, (i - offset.Y) * TileMap.Tile_Size)).ToPoint();
+                 
+                            sprite.Draw(texture2D, new Rectangle(env_Pos, env_dims), Color.White, 0f,
+                            new Vector2(model.Bounds.Width / 2, model.Bounds.Height / 2));
+
+                        }
+                        else
+                        {
+
+                            sprite.Draw(texture2D, new Rectangle((int)((j - offset.X) * TileMap.Tile_Size), (int)((i - offset.Y) * TileMap.Tile_Size), (int)TileMap.Tile_Size, (int)TileMap.Tile_Size), Color.White, 0f,
+                            new Vector2(model.Bounds.Width / 2, model.Bounds.Height / 2));
+                        }
                     }
                 }
             }

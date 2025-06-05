@@ -8,18 +8,11 @@ using static FlatPhysics.FlatBody;
 
 namespace ShootingGame
 {
+
+//pos 가시수정하는 위치로 수정해야하긴함
     public class FallingTile : Trap
     {
-        //  3      2 
-        //
-        //
-        //  0      1
-
-        //      1
-        //
-        //  2       8
-        //
-        //      4
+    
 
         public readonly static Vector2 FallingTile_Frames = new Vector2(1, 1);
         public readonly static string FallingTile_path = "Trap\\fallingTile";

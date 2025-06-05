@@ -3,6 +3,7 @@ using FlatPhysics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,10 @@ using static FlatPhysics.FlatWorld;
 
 namespace ShootingGame
 {
-    public class Mob : SpriteEntity
+    public class Mob : Animated2d
     {
         public float mob_Speed;
-        protected FlatBody flatBody;
+        public FlatBody flatBody;
 
         public FlatBody FlatBody
         { get { return flatBody; } }
@@ -24,27 +25,47 @@ namespace ShootingGame
         public float Atkrange = 0f;
         public float Atkdamage = 0f;
 
-        public Mob(Game1 game, String path, Vector2 init_pos, Vector2 DIMS, FlatWorld.Wolrd_layer wolrd_Layer, float mobspeed, float aggrodist, float long_atkrange, float long_atkdamage) : base(game, path, init_pos, DIMS, wolrd_Layer)
+        public Mob(Game1 game, String path, Vector2 init_pos, Vector2 DIMS, FlatWorld.Wolrd_layer wolrd_Layer,
+            float mobspeed, float aggrodist, float long_atkrange, float atkdamage, Vector2 Frame, int millisecondFrame,
+            int animation_num, string name = null, bool circleBody = false) 
+            : base(game, path, init_pos, DIMS, wolrd_Layer,Frame,animation_num,(int)(Frame.X*Frame.Y),100, name ?? "Idle")
         {
-            InitFlatBody(init_pos, DIMS);
+            InitFlatBody(init_pos, DIMS,circleBody);
             mob_Speed = mobspeed;
             AggroDistance = aggrodist;
             Atkrange = long_atkrange;
-            Atkdamage = long_atkdamage;
+            Atkdamage = atkdamage;
         }
 
-        private void InitFlatBody(Vector2 pos, Vector2 size)
+        protected FlatBody InitFlatBody(Vector2 pos, Vector2 size,bool circle=false)
         {
-            if (!FlatBody.CreateBoxBody(size.X * FlatAABB.HitBoxSize, size.Y * FlatAABB.HitBoxSize, 
-            1f, false, 0.5f, out FlatBody mobBody, out string errorMessage))
+            FlatBody mobBody;
+            
+            if (!circle)
             {
-                throw new Exception(errorMessage);
+                if (!FlatBody.CreateBoxBody(size.X * FlatAABB.HitBoxSize, size.Y * FlatAABB.HitBoxSize,
+                1f, false, 0.5f, out  mobBody, out string errorMessage))
+                {
+                    throw new Exception(errorMessage);
+                }
+
+               
             }
 
-            flatBody = mobBody;
+            else
+            {
+                if (!FlatBody.CreateCircleBody((size.X + size.Y)/2f * FlatAABB.HitBoxSize,
+                   1f, false, 0.5f, out mobBody, out string errorMessage))
+                {
+                    throw new Exception(errorMessage);
+                }
 
+                
+            }
+            flatBody = mobBody;
             flatBody.MoveTo(pos.X, pos.Y);
 
+            return mobBody;
         }
         public override void Update (Hero hero) 
         {
@@ -54,7 +75,7 @@ namespace ShootingGame
 
             velocity = FlatVector.ToVector2(flatBody.LinearVelocity);
 
-            AI(hero);
+            
         }
 
         public override bool GetFlatBody(out FlatBody flatBody)
@@ -66,20 +87,25 @@ namespace ShootingGame
         public override void Destroy_Sprite()
         {
             Destroy = true;
-            Text.MobKilled = Text.MobKilled + 1;
+      //      Text.MobKilled = Text.MobKilled + 1;
 
         }
 
         public virtual void AI(Hero hero)
         { 
-        
-        
+
         }
 
         public virtual void AttackPlayer(float damage, Hero hero)
         {
             hero.Get_Hit(damage);
         }
+
+        public virtual void AttackPlayer(Hero hero)
+        {
+            hero.Get_Hit(Atkdamage);
+        }
+
 
         public bool ShorterthanChaseDistance(Vector2 Pos)
         {
@@ -94,15 +120,18 @@ namespace ShootingGame
             return Atkrange > length;
         }
 
-
-        public override void Draw(Sprites sprite, Vector2 o)
-        {
-            Game1.AntiAliasingShader(model, dims);
-            sprite.Draw(model, new Rectangle((int)(pos.X + o.X), (int)(pos.Y + o.Y), (int)dims.X, (int)dims.Y), Color.White, flatBody.Angle,
-             new Vector2(model.Bounds.Width / 2, model.Bounds.Height / 2));
+        public virtual void Interact(Hero hero)
+        { 
+            
         }
 
 
+        public override void Draw(Sprites sprite, Vector2 o,float angle)
+        {
+
+            base.Draw(sprite, o,angle);
+    
+        }
 
 
     }

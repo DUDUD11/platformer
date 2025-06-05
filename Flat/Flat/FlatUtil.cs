@@ -16,6 +16,7 @@ namespace Flat
         /// 1/10th of a millimeter.
         /// </summary>
         public static readonly float VerySmallAmount = 0.0001f;
+        private static float GameSpeed = 1f;
 
         public static float Clamp(float value, float min, float max)
         {
@@ -60,6 +61,20 @@ namespace Flat
             graphics.ToggleFullScreen();
         }
 
+        public static void ChangeGameSpeed(float t)
+        {
+            GameSpeed = Clamp(t, 0f, 1f);
+        }
+
+        public static float GetGameSpeed()
+        {
+            return GameSpeed;
+        }
+
+        public static void ResetGameSpeed()
+        {
+            GameSpeed = 1f;
+        }
   
 
         public static void SetRelativeBackBufferSize(GraphicsDeviceManager graphics, float ratio)
@@ -95,8 +110,10 @@ namespace Flat
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetElapsedTimeInSeconds(GameTime gameTime)
         {
-            return (float)gameTime.ElapsedGameTime.TotalSeconds;
+            return (float)gameTime.ElapsedGameTime.TotalSeconds * GameSpeed;
         }
+
+     
 
         public static float GetElapsedTimeInSeconds(GameTime gameTime, int interval)
         {

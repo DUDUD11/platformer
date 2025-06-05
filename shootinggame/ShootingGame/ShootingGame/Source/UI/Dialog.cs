@@ -22,6 +22,7 @@ namespace ShootingGame
         public static string default_Dialog = "UI\\Icons\\Dialog";
 
         public readonly Texture2D texture;
+        public readonly TextureUI picture;
         public readonly SpriteFont font;
 
         private readonly Game1 game;
@@ -63,6 +64,9 @@ namespace ShootingGame
             Width = (int)textSize.X + 2 * _cornerSize.X;
             Height = (int)textSize.Y + 2 * _cornerSize.Y;
 
+            if (Width < Game1.screen_width) Width = (int)(Game1.screen_width/1.5f);
+
+
             int x = (int)_position.X-Width/2;
             int y = (int)_position.Y-Height/2;
             int w = Width - 2 * _cornerSize.X;
@@ -74,6 +78,8 @@ namespace ShootingGame
             _EnterTextPosition = new(x + Width - _cornerSize.X, (2*y + _cornerSize.Y)/2);
             EnterButton.pos = _EnterTextPosition;
 
+         
+
             _destinationRectangles[0] = new(x, y, _cornerSize.X, _cornerSize.Y);
             _destinationRectangles[1] = new(x + _cornerSize.X, y, w, _cornerSize.Y);
             _destinationRectangles[2] = new(x + Width - _cornerSize.X, y, _cornerSize.X, _cornerSize.Y);
@@ -83,6 +89,8 @@ namespace ShootingGame
             _destinationRectangles[6] = new(x, y + Height - _cornerSize.Y, _cornerSize.X, _cornerSize.Y);
             _destinationRectangles[7] = new(x + _cornerSize.X, y + Height - _cornerSize.Y, w, _cornerSize.Y);
             _destinationRectangles[8] = new(x + Width - _cornerSize.X, y + Height - _cornerSize.Y, _cornerSize.X, _cornerSize.Y);
+
+          
         }
         //from x
         //conrnersize,Width - 2 * _cornerSize,_cornersize
@@ -107,11 +115,12 @@ namespace ShootingGame
             _sourceRectangles[8] = new(texture.Width - corner, 0, corner, corner); // Top-right
 
         }
-        public Dialog(Game1 game, bool active, Point cornerSize, Vector2 pos, string text)
+        public Dialog(Game1 game, bool active, Point cornerSize, Vector2 pos, string text,string picture)
             : base(game, active)
         {
             this.game = game;
             texture = game.Content.Load<Texture2D>(default_Dialog);
+          
             font = game.Content.Load<SpriteFont>(Text.default_font);
 
             this._text = text;
@@ -128,6 +137,17 @@ namespace ShootingGame
       
             Init_SourceRectangle();
             CalculateDestinationRectangles();
+
+
+            int start_x = (_destinationRectangles[0].X + _destinationRectangles[1].X )/2;
+            int end_x = (_destinationRectangles[1].X + _destinationRectangles[2].X )/2;
+            int start_y = _destinationRectangles[3].Y;
+            int end_y = (_destinationRectangles[0].Height * 2);
+
+
+
+            this.picture = new TextureUI(game, true,picture,new Vector2(start_x,start_y),new Vector2(end_x-start_x,end_y-start_y),Color.White);
+
         }
 
         public void EnterButtonClicked()
@@ -163,10 +183,17 @@ namespace ShootingGame
             {
                 sprite.Draw(texture, _destinationRectangles[i],_sourceRectangles[i], Color.White);
             }
-                sprite.DrawString(font, _text, _textPosition, TextColor);
 
 
-                 EnterButton.Draw(sprite);
+
+
+            picture.Draw(sprite,Vector2.Zero);
+
+
+            sprite.DrawString(font, _text, _textPosition, TextColor);
+
+
+            EnterButton.Draw(sprite);
 
 
         }

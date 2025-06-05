@@ -87,12 +87,7 @@ namespace ShootingGame
         public virtual void Destroy_Sprite()
         {
             Destroy = true;
-
-
         }
-
-
-
         public virtual void Update(Hero hero)
         {
             throw new ArgumentNullException("draw method must override ");

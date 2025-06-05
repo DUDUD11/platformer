@@ -108,8 +108,10 @@ namespace ShootingGame
         public void Draw(Sprites sprites)
         {
             for (int i = 0; i < lines.Count; i++)
-            { 
-                sprites.DrawString(font, lines[i], new Vector2(pos.X,pos.Y+(lineHeight*i)), color);
+            {
+                Game1.NoAntiAliasingShader(color);
+
+                sprites.DrawString(font, lines[i], new Vector2((int)pos.X,(int)pos.Y+(lineHeight*i)), color);
             
             }
         }
